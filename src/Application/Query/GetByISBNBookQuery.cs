@@ -3,4 +3,4 @@ using MediatR;
 
 namespace TemplateASP.NET.CORE.Query;
 
-public record GetBooksQuery() : IRequest<IQueryable<Book>>;
+public record GetByISBNBookQuery(string ISBN) : IRequest<Book>;

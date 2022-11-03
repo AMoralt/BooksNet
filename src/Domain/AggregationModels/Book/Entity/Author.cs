@@ -2,14 +2,15 @@
 
 namespace Domain.AggregationModels.Book;
 
-public class Publisher : Entity
+public class Author : Entity
 {
+    private Author(){}
     public string FirstName { get; }
     public string LastName { get; }
-    public Publisher(int id, string firstName, string lastName)
+    public Author(int id, string lastName, string firstName)
     {
         Id = id;
-        FirstName = firstName;
         LastName = lastName;
+        FirstName = firstName;
     }
 }

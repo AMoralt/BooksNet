@@ -14,19 +14,27 @@ public class BookController
         _mediator = mediator;
     }
     
-    [HttpGet]
+    [HttpGet("GetAll")]
     public async Task<IResult> GetAll(CancellationToken token)
     {
-        var getBooks = new GetBooksQuery();
+        var getAll = new GetAllBooksQuery();
         
-        var result = await _mediator.Send(getBooks, token);
+        var result = await _mediator.Send(getAll, token);
+        return Results.Ok(result);
+    }
+    [HttpGet("{ISBN}")]
+    public async Task<IResult> GetByISBN(string ISBN, CancellationToken token)
+    {
+        var getByISBN = new GetByISBNBookQuery(ISBN);
+        
+        var result = await _mediator.Send(getByISBN, token);
         return Results.Ok(result);
     } 
     
-    [HttpDelete("{isbn}")]
-    public async Task<IResult> DeleteBookByISBN(string isbn, CancellationToken token)
+    [HttpDelete("{ISBN}")]
+    public async Task<IResult> DeleteByISBN(string ISBN, CancellationToken token)
     {
-        var deleteBook = new DeleteBookCommand(isbn);
+        var deleteBook = new DeleteBookCommand(ISBN);
         
         var result = await _mediator.Send(deleteBook, token);
         return Results.Ok(result);

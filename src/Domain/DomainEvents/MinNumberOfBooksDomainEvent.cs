@@ -6,8 +6,8 @@ namespace Domain.DomainEvents;
 
 public class MinNumberOfBooksDomainEvent : INotification
 {
-    public ISBN ISBN { get; }
-    public MinNumberOfBooksDomainEvent(ISBN isbn)
+    public string ISBN { get; }
+    public MinNumberOfBooksDomainEvent(string isbn)
     {
         ISBN = isbn;
     }

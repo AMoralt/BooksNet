@@ -37,7 +37,7 @@ if (app.Environment.IsDevelopment())
     
     using var scope = ((IApplicationBuilder) app).ApplicationServices.CreateScope();
     var migrator = scope.ServiceProvider.GetService<IMigrationRunner>();
-    //migrator.MigrateUp();
+    migrator.MigrateUp();
 }
 
 app.MapControllers();

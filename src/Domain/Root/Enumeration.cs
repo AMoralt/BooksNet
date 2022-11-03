@@ -8,7 +8,7 @@ public abstract class Enumeration : IComparable
     public int Id { get; }
     
     protected Enumeration(int id, string name) => (Id, Name) = (id, name);
-    
+
     public override string ToString() => Name;
     
     public override int GetHashCode() => Id.GetHashCode();
