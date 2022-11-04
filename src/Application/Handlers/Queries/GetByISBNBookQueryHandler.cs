@@ -15,7 +15,7 @@ public class GetByISBNBookQueryHandler : IRequestHandler<GetByISBNBookQuery, Boo
 
     public async Task<Book> Handle(GetByISBNBookQuery request, CancellationToken cancellationToken)
     {
-        var result= await _bookRepository.GetByISBNAsync(request.ISBN);
+        var result= await _bookRepository.GetByISBNAsync(request.ISBN,cancellationToken);
         return result;
     }
 }

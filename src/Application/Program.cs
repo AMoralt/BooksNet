@@ -13,8 +13,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.Configure<DatabaseConnectionOptions>(builder.Configuration.GetSection("DatabaseConnectionOptions"));
 builder.Services.AddMediatR(typeof(Program), typeof(DatabaseConnectionOptions));
 builder.Services.AddScoped<IDbConnectionFactory<NpgsqlConnection>, NpgsqlConnectionFactory>();
-builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 builder.Services.AddScoped<IChangeTracker,ChangeTracker>();
+builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 
 var connectionString = builder.Configuration["DatabaseConnectionOptions:ConnectionString"];

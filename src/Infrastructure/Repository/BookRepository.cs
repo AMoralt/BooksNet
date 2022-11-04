@@ -6,18 +6,20 @@ namespace EmptyProjectASPNETCORE;
 
 public class BookRepository : IBookRepository
 {
-    public IUnitOfWork UnitOfWork { get; }
     private readonly IDbConnectionFactory<NpgsqlConnection> _dbConnectionFactory;
-    public BookRepository(IDbConnectionFactory<NpgsqlConnection> dbConnectionFactory)
+    private readonly IChangeTracker _changeTracker;
+    public BookRepository(IDbConnectionFactory<NpgsqlConnection> dbConnectionFactory,
+        IChangeTracker changeTracker)
     {
         _dbConnectionFactory = dbConnectionFactory;
+        _changeTracker = changeTracker;
     }
     public Task CreateAsync(Book itemToCreate, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<IQueryable<Book>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Book>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         const string sql = @"SELECT 
             book.id,
@@ -51,23 +53,35 @@ public class BookRepository : IBookRepository
                     new BookFormat(format.Id, format.Name)
                 );
             }, splitOn:"title,isbn,id,id,id,id");
-        
-        var result = books.GroupBy(p => p.Id).Select(g =>
+
+        if (books.Any())
         {
-            var groupedPost = g.First();
-            groupedPost.Authors = g.Select(p => p.Authors.Single()).ToList();
-            return groupedPost;
-        });
-        return result.AsQueryable();
+            books = books.GroupBy(p => p.Id).Select(g =>
+            {
+                var groupedPost = g.First();
+                groupedPost.Authors = g.Select(p => p.Authors.Single()).ToList();
+                return groupedPost;
+            });
+            return books;
+        }
+        
+        return null;
     }
 
     public Task UpdateAsync(Book ISBN, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
-    public Task DeleteAsync(string ISBN, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(string ISBN, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+       const string sql = @"DELETE
+            FROM books AS book
+            WHERE book.isbn = @ISBN";
+        
+        var parameters = new { ISBN = ISBN };
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+        
+        await connection.ExecuteAsync(sql, param: parameters);
     }
 
     public async Task<Book> GetByISBNAsync(string ISBN, CancellationToken cancellationToken = default)
@@ -111,10 +125,11 @@ public class BookRepository : IBookRepository
                 );
             }, splitOn:"title,isbn,id,id,id,id", param: parameters);
 
-        if (books is not null)
+        if (books.Any())
         {
             var book = books.FirstOrDefault();
             book.Authors = books.Select(p => p.Authors.Single()).ToList();
+            _changeTracker.Track(book);
             return book;
         }
         

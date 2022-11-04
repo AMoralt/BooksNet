@@ -4,7 +4,7 @@ using TemplateASP.NET.CORE.Query;
 
 namespace EmptyProjectASPNETCORE;
 
-public class GetAllBooksQueryHandler : IRequestHandler<GetAllBooksQuery, IQueryable<Book>>
+public class GetAllBooksQueryHandler : IRequestHandler<GetAllBooksQuery, IEnumerable<Book>>
 {
     private readonly IBookRepository _bookRepository;
 
@@ -13,9 +13,9 @@ public class GetAllBooksQueryHandler : IRequestHandler<GetAllBooksQuery, IQuerya
         _bookRepository = bookRepository;
     }
 
-    public async Task<IQueryable<Book>> Handle(GetAllBooksQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<Book>> Handle(GetAllBooksQuery request, CancellationToken cancellationToken)
     {
-        var result= await _bookRepository.GetAllAsync();
+        var result= await _bookRepository.GetAllAsync(cancellationToken);
         return result;
     }
 }

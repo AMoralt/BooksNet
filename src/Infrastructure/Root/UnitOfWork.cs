@@ -13,10 +13,12 @@ public class UnitOfWork : IUnitOfWork, IDisposable
 
         public UnitOfWork(
             IDbConnectionFactory<NpgsqlConnection> dbConnectionFactory,
-            IChangeTracker changeTracker)
+            IChangeTracker changeTracker, 
+            IPublisher publisher)
         {
             _dbConnectionFactory = dbConnectionFactory;
             _changeTracker = changeTracker;
+            _publisher = publisher;
         }
 
         public async ValueTask StartTransaction(CancellationToken token)
@@ -38,6 +40,9 @@ public class UnitOfWork : IUnitOfWork, IDisposable
                 _changeTracker.TrackedEntities
                     .SelectMany(x =>
                     {
+                        if (x.DomainEvents is null)
+                            return Enumerable.Empty<INotification>();
+                        
                         var events = x.DomainEvents.ToList();
                         x.ClearDomainEvents();
                         return events;
