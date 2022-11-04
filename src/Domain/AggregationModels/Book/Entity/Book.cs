@@ -35,7 +35,7 @@ public class Book : Entity
         Details.Quantity += valueToIncrease;
     }
     
-    public void GiveOutBook(int valueToGiveOut)
+    public void DecreaseQuantity(int valueToGiveOut)
     {
         if(Details.Quantity - valueToGiveOut < 0)
             throw new InvalidOperationException("Quantity cannot be less than 0");

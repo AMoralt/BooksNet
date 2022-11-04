@@ -111,13 +111,6 @@ public class BookRepository : IBookRepository
                 );
             }, splitOn:"title,isbn,id,id,id,id", param: parameters);
 
-        var result = books.GroupBy(p => p.Id).Select(g =>
-        {
-            var groupedPost = g.First();
-            groupedPost.Authors = g.Select(p => p.Authors.Single()).ToList();
-            return groupedPost;
-        });
-
         if (books is not null)
         {
             var book = books.FirstOrDefault();
