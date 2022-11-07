@@ -17,7 +17,11 @@ public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand>
     public async Task<Unit> Handle(CreateBookCommand request, CancellationToken cancellationToken)
     {
          await _unitOfWork.StartTransaction(cancellationToken);
-         DateTime.TryParseExact(request.publicationdate,"yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var publicationdate);
+         
+         if(!DateTime.TryParseExact(request.publicationdate,"yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var publicationdate))
+         {
+             throw new System.Exception("Invalid date format");
+         }
 
          var bookToCreate = new Book(
              null,

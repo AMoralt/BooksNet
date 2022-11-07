@@ -12,7 +12,7 @@ public class BookDetails : ValueObject
     
     private BookDetails(){}
     //for dapper contructor
-    public BookDetails( int quantity, int price, DateTime publicationDate, string isbn)
+    public BookDetails(int quantity, int price, DateTime publicationDate, string isbn)
     {
         ISBN = isbn;
         PublicationDate = publicationDate;

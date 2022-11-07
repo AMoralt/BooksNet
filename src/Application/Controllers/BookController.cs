@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Domain.AggregationModels.Book;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TemplateASP.NET.CORE.Query;
 
@@ -44,11 +45,6 @@ public class BookController
     {
         try
         {
-            var getByISBN = new GetByISBNBookQuery(ISBN);
-            var bookExist = await _mediator.Send(getByISBN, token);
-            if (bookExist is null)
-                return Results.NotFound();
-            
             var deleteBook = new DeleteBookCommand(ISBN);
 
             await _mediator.Send(deleteBook, token);
@@ -56,7 +52,7 @@ public class BookController
         }
         catch (System.Exception e)
         {
-            return Results.BadRequest(e.Message);
+            return Results.Problem(e.Message);
         }
     }
     [HttpPost]
@@ -64,5 +60,18 @@ public class BookController
     {
         var book = await _mediator.Send(bookToCreate, token);
         return Results.Created("...",book);
+    }
+    [HttpPut]
+    public async Task<IResult> Update([FromBody] UpdateBookCommand bookToUpdate, CancellationToken token)
+    {
+        try
+        {
+            var book = await _mediator.Send(bookToUpdate, token);
+            return Results.Accepted("...",book);
+        }
+        catch (System.Exception e)
+        {
+            return Results.BadRequest(e.Message);
+        }
     }
 }

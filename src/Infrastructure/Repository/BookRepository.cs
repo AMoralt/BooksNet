@@ -55,6 +55,7 @@ public class BookRepository : IBookRepository
         {
             await connection.ExecuteAsync(sql2, new {AuthorId = id, BookId = bookId});
         }
+        _changeTracker.Track(bookToCreate);
     }
 
     public async Task<IEnumerable<Book>> GetAllAsync(CancellationToken cancellationToken = default)
@@ -107,9 +108,51 @@ public class BookRepository : IBookRepository
         return null;
     }
 
-    public Task UpdateAsync(Book itemToUpdate, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Book itemToUpdate, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        const string sql = @"
+            UPDATE books
+            SET 
+                title = @Title,
+                quantity = @Quantity,
+                price = @Price, 
+                publicationdate = @PublicationDate,
+                publisher_id = @PublisherId, 
+                genre_id = @GenreId,
+                format_id = @FormatId
+            WHERE
+                id = @Id";
+
+        //Нужно вначале удалить все связи авторов с книгой, а потом добавить новые TODO
+        const string sql2 = @"
+            UPDATE author_book
+            SET
+                author_id = @AuthorId
+            WHERE 
+                book_id = @BookId";
+
+        var parameters = new
+        {
+            Title = itemToUpdate.Title.Value,
+            Quantity = itemToUpdate.Details.Quantity,
+            Price = itemToUpdate.Details.Price,
+            PublicationDate = itemToUpdate.Details.PublicationDate,
+            PublisherId = itemToUpdate.Publisher.Id,
+            GenreId = itemToUpdate.Genre.Id,
+            FormatId = itemToUpdate.Format.Id
+        };
+        
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+        
+        await connection.ExecuteAsync(sql, param: parameters);
+        
+        var author = itemToUpdate.Authors.Select(a => (int)a.Id );
+
+        foreach (var id in author)
+        {
+            await connection.ExecuteAsync(sql2, new {AuthorId = id, BookId = itemToUpdate.Id});
+        }
+        _changeTracker.Track(itemToUpdate);
     }
     public async Task DeleteAsync(string ISBN, CancellationToken cancellationToken = default)
     {
@@ -165,7 +208,9 @@ public class BookRepository : IBookRepository
                     new BookFormat(format.Id.Value, format.Name)
                 );
             }, splitOn:"title,isbn,id,id,id,id", param: parameters);
-
+        
+        //if exception is thrown, handle IT!!! TODO
+        
         if (books.Any())
         {
             var book = books.FirstOrDefault();

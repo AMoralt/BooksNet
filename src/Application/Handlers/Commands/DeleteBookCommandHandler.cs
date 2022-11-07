@@ -14,9 +14,13 @@ public class DeleteBookCommandHandler : IRequestHandler<DeleteBookCommand>
 
     public async Task<Unit> Handle(DeleteBookCommand request, CancellationToken cancellationToken)
     {
-        _unitOfWork.StartTransaction(cancellationToken);
+        var bookExist =_bookRepository.GetByISBNAsync(request.ISBN,cancellationToken);
+        if (bookExist is null)
+            throw new System.Exception("Book not found");
+
+        await _unitOfWork.StartTransaction(cancellationToken);
         await _bookRepository.DeleteAsync(request.ISBN, cancellationToken);
-        _unitOfWork.SaveChangesAsync(cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         
         return Unit.Value;
     }
