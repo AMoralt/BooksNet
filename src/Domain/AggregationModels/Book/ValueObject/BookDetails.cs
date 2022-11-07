@@ -11,7 +11,8 @@ public class BookDetails : ValueObject
     public int MinimalQuantity { get; } = 5;
     
     private BookDetails(){}
-    private BookDetails( int quantity, int price, DateTime publicationDate, string isbn)
+    //for dapper contructor
+    public BookDetails( int quantity, int price, DateTime publicationDate, string isbn)
     {
         ISBN = isbn;
         PublicationDate = publicationDate;

@@ -5,7 +5,8 @@ namespace Domain.AggregationModels.Book;
 public class Title : ValueObject
 {
     public string Value { get; }
-    private Title(string title)
+    //for dapper contructor
+    public Title(string title)
     {
         Value = title;
     }

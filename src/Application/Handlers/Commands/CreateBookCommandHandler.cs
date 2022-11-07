@@ -21,13 +21,8 @@ public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand>
 
          var bookToCreate = new Book(
              null,
-             new BookDetails(
-                 request.quantity,
-                 request.price,
-                 publicationdate,
-                 request.isbn
-             ),
-             new Title(request.title),
+             BookDetails.Create(request.quantity, request.price, publicationdate, request.isbn), 
+             Title.Create(request.title), 
              new Genre(request.genreId,null),
              new List<Author>(request.authors.Select(authorsIds => new Author(authorsIds, null,null))),
              new Publisher(request.publisherId, null),
