@@ -7,7 +7,7 @@ public class Book : Entity
 {
     private Book(){}
     public Book(
-        int id,
+        int? id,
         BookDetails details,
         Title title, 
         Genre genre,
@@ -29,7 +29,6 @@ public class Book : Entity
     public List<Author> Authors { get; set; } 
     public Publisher Publisher { get; set;}
     public BookDetails Details { get; set;}
-    
     public void IncreaseQuantity(int valueToIncrease)
     {
         Details.Quantity += valueToIncrease;

@@ -59,4 +59,10 @@ public class BookController
             return Results.BadRequest(e.Message);
         }
     }
+    [HttpPost]
+    public async Task<IResult> Create([FromBody] CreateBookCommand bookToCreate, CancellationToken token)
+    {
+        var book = await _mediator.Send(bookToCreate, token);
+        return Results.Created("...",book);
+    }
 }

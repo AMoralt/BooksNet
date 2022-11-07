@@ -1,4 +1,6 @@
-﻿using Dapper;
+﻿using System.Text.Json;
+using System.Text.Json.Nodes;
+using Dapper;
 using Domain.AggregationModels.Book;
 using Npgsql;
 
@@ -14,21 +16,58 @@ public class BookRepository : IBookRepository
         _dbConnectionFactory = dbConnectionFactory;
         _changeTracker = changeTracker;
     }
-    public Task CreateAsync(Book itemToCreate, CancellationToken cancellationToken = default)
+    public async Task CreateAsync(Book bookToCreate, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        const string sql = @"
+                INSERT INTO books 
+                    (title, isbn, quantity, price, publicationdate, publisher_id, genre_id, format_id)
+                VALUES 
+                    (@Title, @Isbn, @Quantity, @Price, @PublicationDate, @PublisherId, @GenreId, @FormatId)
+                RETURNING id
+            ";
+
+        const string sql2 = @"
+            INSERT INTO author_book 
+                (author_id, book_id)
+            VALUES
+                (@AuthorId, @BookId)";
+        
+        
+        var parameters = new
+        {
+            Title = bookToCreate.Title.Value,
+            Isbn = bookToCreate.Details.ISBN,
+            Quantity = bookToCreate.Details.Quantity,
+            Price = bookToCreate.Details.Price,
+            PublicationDate = bookToCreate.Details.PublicationDate,
+            PublisherId = bookToCreate.Publisher.Id,
+            GenreId = bookToCreate.Genre.Id,
+            FormatId = bookToCreate.Format.Id
+        };
+        
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+        
+        var bookId = await connection.ExecuteScalarAsync(sql, param: parameters);
+        
+        var author = bookToCreate.Authors.Select(a => (int)a.Id );
+
+        foreach (var id in author)
+        {
+            await connection.ExecuteAsync(sql2, new {AuthorId = id, BookId = bookId});
+        }
     }
 
     public async Task<IEnumerable<Book>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        const string sql = @"SELECT 
-            book.id,
-            book.title, 
-            book.isbn, book.quantity, book.price, book.publicationdate,
-            publisher.id, publisher.name,
-            genre.id, genre.name,
-            author.id, author.firstname,author.lastname,
-            bformat.id, bformat.name
+        const string sql = @"
+            SELECT 
+                book.id,
+                book.title, 
+                book.isbn, book.quantity, book.price, book.publicationdate,
+                publisher.id, publisher.name,
+                genre.id, genre.name,
+                author.id, author.firstname,author.lastname,
+                bformat.id, bformat.name
             FROM books AS book
             JOIN publishers AS publisher ON book.publisher_id = publisher.id
             JOIN genres AS genre ON book.genre_id = genre.id
@@ -47,10 +86,10 @@ public class BookRepository : IBookRepository
                     new BookDetails(bookdetails.Quantity, bookdetails.Price, bookdetails.PublicationDate,
                         bookdetails.ISBN),
                     new Title(title.Value),
-                    new Genre(genre.Id, genre.Name),
-                    new List<Author>{ new Author(author.Id, author.FirstName, author.LastName)},
-                    new Publisher(publisher.Id, publisher.Name),
-                    new BookFormat(format.Id, format.Name)
+                    new Genre(genre.Id.Value, genre.Name),
+                    new List<Author>{ new Author(author.Id.Value, author.FirstName, author.LastName)},
+                    new Publisher(publisher.Id.Value, publisher.Name),
+                    new BookFormat(format.Id.Value, format.Name)
                 );
             }, splitOn:"title,isbn,id,id,id,id");
 
@@ -68,13 +107,14 @@ public class BookRepository : IBookRepository
         return null;
     }
 
-    public Task UpdateAsync(Book ISBN, CancellationToken cancellationToken = default)
+    public Task UpdateAsync(Book itemToUpdate, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
     public async Task DeleteAsync(string ISBN, CancellationToken cancellationToken = default)
     {
-       const string sql = @"DELETE
+       const string sql = @"
+            DELETE
             FROM books AS book
             WHERE book.isbn = @ISBN";
         
@@ -86,20 +126,21 @@ public class BookRepository : IBookRepository
 
     public async Task<Book> GetByISBNAsync(string ISBN, CancellationToken cancellationToken = default)
     {
-        const string sql = @"SELECT 
-            book.id,
-            book.title, 
-            book.isbn, book.quantity, book.price, book.publicationdate,
-            publisher.id, publisher.name,
-            genre.id, genre.name,
-            author.id, author.firstname,author.lastname,
-            bformat.id, bformat.name
+        const string sql = @"
+            SELECT 
+                book.id,
+                book.title, 
+                book.isbn, book.quantity, book.price, book.publicationdate,
+                publisher.id, publisher.name,
+                genre.id, genre.name,
+                author.id, author.firstname,author.lastname,
+                bformat.id, bformat.name
             FROM (SELECT
                       id, title, isbn, quantity, price, publicationdate,
                       publisher_id, genre_id, format_id
                   FROM books
-                  WHERE isbn = @ISBN
-                  ) AS book
+                  WHERE isbn = @ISBN) 
+                AS book
             JOIN publishers AS publisher ON book.publisher_id = publisher.id
             JOIN genres AS genre ON book.genre_id = genre.id
             JOIN author_book AS abook ON abook.book_id = book.id
@@ -118,10 +159,10 @@ public class BookRepository : IBookRepository
                     new BookDetails(bookdetails.Quantity, bookdetails.Price, bookdetails.PublicationDate,
                         bookdetails.ISBN),
                     new Title(title.Value),
-                    new Genre(genre.Id, genre.Name),
-                    new List<Author>{ new Author(author.Id, author.FirstName, author.LastName)},
-                    new Publisher(publisher.Id, publisher.Name),
-                    new BookFormat(format.Id, format.Name)
+                    new Genre(genre.Id.Value, genre.Name),
+                    new List<Author>{ new Author(author.Id.Value, author.FirstName, author.LastName)},
+                    new Publisher(publisher.Id.Value, publisher.Name),
+                    new BookFormat(format.Id.Value, format.Name)
                 );
             }, splitOn:"title,isbn,id,id,id,id", param: parameters);
 

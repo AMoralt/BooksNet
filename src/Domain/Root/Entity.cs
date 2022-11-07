@@ -5,7 +5,7 @@ namespace EmptyProjectASPNETCORE;
 public abstract class Entity
 {
     int? _requestedHashCode;
-    public virtual int Id { get; set; }
+    public virtual int? Id { get; set; }
     
     private List<INotification> _domainEvents;
 

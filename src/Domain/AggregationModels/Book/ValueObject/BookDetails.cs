@@ -5,22 +5,22 @@ namespace Domain.AggregationModels.Book;
 public class BookDetails : ValueObject
 {
     public string ISBN { get; }
-    public DateTimeOffset PublicationDate { get; }
+    public DateTime PublicationDate { get; }
     public int Price { get; set; }
     public int Quantity { get; set; }
     public int MinimalQuantity { get; } = 5;
     
     private BookDetails(){}
 
-    public BookDetails( int quantity, int price, DateTimeOffset publicationDate, string isbn)
+    public BookDetails( int quantity, int price, DateTime publicationDate, string isbn)
     {
         if(quantity <= 0)
             throw new Exception("Quantity must be greater than zero");
         
-        if(price < 0) 
+        if(price <= 0) 
             throw new Exception("Price cannot be negative");
         
-        if(publicationDate > DateTimeOffset.Now)
+        if(publicationDate > DateTime.Now)
             throw new ArgumentException("Publication date cannot be in the future");
         
         if (string.IsNullOrWhiteSpace(isbn))
@@ -29,9 +29,6 @@ public class BookDetails : ValueObject
             throw new Exception("ISBN should contain 10 or 13 digits");
         if (isbn.Any(c => !char.IsDigit(c)))
             throw new Exception("ISBN should contain only digits");
-
-        //Format = BookFormat.GetAll<BookFormat>().FirstOrDefault(item => item.Name == format)
-          //       ?? BookFormat.Comic;//?? throw new ArgumentException("Invalid book format");
 
         ISBN = isbn;
         PublicationDate = publicationDate;
