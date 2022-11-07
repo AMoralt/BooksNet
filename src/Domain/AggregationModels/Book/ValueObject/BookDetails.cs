@@ -11,8 +11,14 @@ public class BookDetails : ValueObject
     public int MinimalQuantity { get; } = 5;
     
     private BookDetails(){}
-
-    public BookDetails( int quantity, int price, DateTime publicationDate, string isbn)
+    private BookDetails( int quantity, int price, DateTime publicationDate, string isbn)
+    {
+        ISBN = isbn;
+        PublicationDate = publicationDate;
+        Price = price;
+        Quantity = quantity;
+    }
+    public static BookDetails Create(int quantity, int price, DateTime publicationDate, string isbn)
     {
         if(quantity <= 0)
             throw new Exception("Quantity must be greater than zero");
@@ -29,11 +35,8 @@ public class BookDetails : ValueObject
             throw new Exception("ISBN should contain 10 or 13 digits");
         if (isbn.Any(c => !char.IsDigit(c)))
             throw new Exception("ISBN should contain only digits");
-
-        ISBN = isbn;
-        PublicationDate = publicationDate;
-        Price = price;
-        Quantity = quantity;
+        
+        return new BookDetails(quantity, price, publicationDate, isbn);
     }
     protected override IEnumerable<object> GetEqualityComponents()
     {
