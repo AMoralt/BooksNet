@@ -61,7 +61,7 @@ public class AuthorController
             return Results.BadRequest(e.Message);
         }
     }
-    [HttpPost("{first:max(50)}/{last:max(50)}")]
+    [HttpPost("{first}/{last}")]
     public async Task<IResult> Create(string first,string last, CancellationToken token)
     {
         try

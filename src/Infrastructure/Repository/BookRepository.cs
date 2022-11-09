@@ -14,7 +14,7 @@ public class BookRepository : IBookRepository
         _dbConnectionFactory = dbConnectionFactory;
         _changeTracker = changeTracker;
     }
-    public async Task CreateAsync(Book bookToCreate, CancellationToken cancellationToken = default)
+    public async Task CreateAsync(Book itemToCreate, CancellationToken cancellationToken = default)
     {
         const string sql = @"
                 INSERT INTO books 
@@ -33,27 +33,27 @@ public class BookRepository : IBookRepository
         
         var parameters = new
         {
-            Title = bookToCreate.Title.Value,
-            Isbn = bookToCreate.Details.ISBN,
-            Quantity = bookToCreate.Details.Quantity,
-            Price = bookToCreate.Details.Price,
-            PublicationDate = bookToCreate.Details.PublicationDate,
-            PublisherId = bookToCreate.Publisher.Id,
-            GenreId = bookToCreate.Genre.Id,
-            FormatId = bookToCreate.Format.Id
+            Title = itemToCreate.Title.Value,
+            Isbn = itemToCreate.Details.ISBN,
+            Quantity = itemToCreate.Details.Quantity,
+            Price = itemToCreate.Details.Price,
+            PublicationDate = itemToCreate.Details.PublicationDate,
+            PublisherId = itemToCreate.Publisher.Id,
+            GenreId = itemToCreate.Genre.Id,
+            FormatId = itemToCreate.Format.Id
         };
         
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
         
         var bookId = await connection.ExecuteScalarAsync(sql, param: parameters);
         
-        var author = bookToCreate.Authors.Select(a => (int)a.Id );
+        var author = itemToCreate.Authors.Select(a => (int)a.Id );
 
         foreach (var id in author)
         {
             await connection.ExecuteAsync(sql2, new {AuthorId = id, BookId = bookId});
         }
-        _changeTracker.Track(bookToCreate);
+        _changeTracker.Track(itemToCreate);
     }
 
     public async Task<IEnumerable<Book>> GetAllAsync(CancellationToken cancellationToken = default)

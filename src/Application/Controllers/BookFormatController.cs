@@ -61,7 +61,7 @@ public class BookFormatController
             return Results.BadRequest(e.Message);
         }
     }
-    [HttpPost("{name:max(50)}")]
+    [HttpPost("{name}")]
     public async Task<IResult> Create(string name, CancellationToken token)
     {
         try
@@ -75,7 +75,7 @@ public class BookFormatController
             return Results.BadRequest(e.Message);
         }
     }
-    [HttpPut("{id:int}/{name:max(50)}")]
+    [HttpPut("{id:int}/{name}")]
     public async Task<IResult> Update(int id, string name, CancellationToken token)
     {
         try

@@ -42,8 +42,8 @@ public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
                 request.title ?? bookExist.Title.Value
             ),
             new Genre(request.genreId ?? (int)bookExist.Genre.Id, null),
-            authors.Count > 0 ? authors : bookExist.Authors,
-            new Publisher(request.publisherId ?? (int)bookExist.Publisher.Id, null),
+            authors.Count > 0 ? authors : bookExist.Authors, //if new authors is empty, then use the old ones
+            new Publisher(request.publisherId ?? (int)bookExist.Publisher.Id,null),
             new BookFormat(request.formatId ?? (int)bookExist.Format.Id, null));
 
          await _unitOfWork.StartTransaction(cancellationToken);
