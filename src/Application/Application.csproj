@@ -24,8 +24,6 @@
       <Folder Include="Handlers\Book" />
       <Folder Include="Handlers\BookFormat\CommandHandlers" />
       <Folder Include="Handlers\BookFormat\QueryHandlers" />
-      <Folder Include="Handlers\Publisher\CommandHandlers" />
-      <Folder Include="Handlers\Publisher\QueryHandlers" />
       <Folder Include="Middlewares" />
     </ItemGroup>
 
