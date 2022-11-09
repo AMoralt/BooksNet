@@ -19,7 +19,7 @@ public class BookFormatController
     {
         try
         {
-            var getAll = new GetAllGenresQuery();
+            var getAll = new GetAllBookFormatsQuery();
             var result = await _mediator.Send(getAll, token);
             if (result is null)
                 return Results.NotFound();
@@ -35,7 +35,7 @@ public class BookFormatController
     {
         try
         {
-            var getById = new GetByIdGenreQuery(id);
+            var getById = new GetByIdBookFormatQuery(id);
             var result = await _mediator.Send(getById, token);
             if (result is null)
                 return Results.NotFound();
@@ -52,8 +52,8 @@ public class BookFormatController
     {
         try
         {
-            var deleteGenreCommand = new DeleteGenreCommand(id);
-            await _mediator.Send(deleteGenreCommand, token);
+            var deleteCommand = new DeleteBookFormatCommand(id);
+            await _mediator.Send(deleteCommand, token);
             return Results.NoContent();
         }
         catch (System.Exception e)
@@ -66,8 +66,8 @@ public class BookFormatController
     {
         try
         {
-            var createGenreCommand = new CreateGenreCommand(name);
-            await _mediator.Send(createGenreCommand, token);
+            var createCommand = new CreateBookFormatCommand(name);
+            await _mediator.Send(createCommand, token);
             return Results.StatusCode(201);
         }
         catch (System.Exception e)
@@ -80,8 +80,8 @@ public class BookFormatController
     {
         try
         {
-            var updateGenreCommand = new UpdateGenreCommand(id,name);
-            await _mediator.Send(updateGenreCommand, token);
+            var updateCommand = new UpdateBookFormatCommand(id,name);
+            await _mediator.Send(updateCommand, token);
             return Results.StatusCode(202);
         }
         catch (System.Exception e)

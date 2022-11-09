@@ -6,10 +6,10 @@ namespace EmptyProjectASPNETCORE;
 
 [Route("[controller]")]
 [ApiController]
-public class PublisherController
+public class AuthorController
 {
     private readonly IMediator _mediator;
-    public PublisherController(IMediator mediator)
+    public AuthorController(IMediator mediator)
     {
         _mediator = mediator;
     }
@@ -19,7 +19,7 @@ public class PublisherController
     {
         try
         {
-            var getAll = new GetAllPublishersQuery();
+            var getAll = new GetAllAuthorsQuery();
             var result = await _mediator.Send(getAll, token);
             if (result is null)
                 return Results.NotFound();
@@ -35,7 +35,7 @@ public class PublisherController
     {
         try
         {
-            var getById = new GetByIdPublisherQuery(id);
+            var getById = new GetByIdAuthorQuery(id);
             var result = await _mediator.Send(getById, token);
             if (result is null)
                 return Results.NotFound();
@@ -52,7 +52,7 @@ public class PublisherController
     {
         try
         {
-            var deleteCommand = new DeletePublisherCommand(id);
+            var deleteCommand = new DeleteAuthorCommand(id);
             await _mediator.Send(deleteCommand, token);
             return Results.NoContent();
         }
@@ -61,12 +61,12 @@ public class PublisherController
             return Results.BadRequest(e.Message);
         }
     }
-    [HttpPost("{name:max(50)}")]
-    public async Task<IResult> Create(string name, CancellationToken token)
+    [HttpPost("{first:max(50)}/{last:max(50)}")]
+    public async Task<IResult> Create(string first,string last, CancellationToken token)
     {
         try
         {
-            var createCommand = new CreatePublisherCommand(name);
+            var createCommand = new CreateAuthorCommand(first,last);
             await _mediator.Send(createCommand, token);
             return Results.StatusCode(201);
         }
@@ -75,13 +75,12 @@ public class PublisherController
             return Results.BadRequest(e.Message);
         }
     }
-    [HttpPut("{id:int}/{name:max(50)}")]
-    public async Task<IResult> Update(int id, string name, CancellationToken token)
+    [HttpPut]
+    public async Task<IResult> Update([FromBody] UpdateAuthorCommand authorToUpdate, CancellationToken token)
     {
         try
         {
-            var updateCommand = new UpdatePublisherCommand(id,name);
-            await _mediator.Send(updateCommand, token);
+            await _mediator.Send(authorToUpdate, token);
             return Results.StatusCode(202);
         }
         catch (System.Exception e)

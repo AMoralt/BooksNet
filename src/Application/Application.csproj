@@ -19,7 +19,11 @@
       <Folder Include="Contracts" />
       <Folder Include="Exception" />
       <Folder Include="Extensions" />
+      <Folder Include="Handlers\Author" />
       <Folder Include="Handlers\Book" />
+      <Folder Include="Handlers\BookFormat" />
+      <Folder Include="Handlers\Genre" />
+      <Folder Include="Handlers\Publisher" />
       <Folder Include="Middlewares" />
     </ItemGroup>
 

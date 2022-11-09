@@ -52,8 +52,8 @@ public class GenreController
     {
         try
         {
-            var deleteGenreCommand = new DeleteGenreCommand(id);
-            await _mediator.Send(deleteGenreCommand, token);
+            var deleteCommand = new DeleteGenreCommand(id);
+            await _mediator.Send(deleteCommand, token);
             return Results.NoContent();
         }
         catch (System.Exception e)
@@ -66,8 +66,8 @@ public class GenreController
     {
         try
         {
-            var createGenreCommand = new CreateGenreCommand(name);
-            await _mediator.Send(createGenreCommand, token);
+            var createCommand = new CreateGenreCommand(name);
+            await _mediator.Send(createCommand, token);
             return Results.StatusCode(201);
         }
         catch (System.Exception e)
@@ -80,8 +80,8 @@ public class GenreController
     {
         try
         {
-            var updateGenreCommand = new UpdateGenreCommand(id,name);
-            await _mediator.Send(updateGenreCommand, token);
+            var updateCommand = new UpdateGenreCommand(id,name);
+            await _mediator.Send(updateCommand, token);
             return Results.StatusCode(202);
         }
         catch (System.Exception e)
