@@ -77,7 +77,6 @@ public class BookRepository : IBookRepository
             JOIN book_formats AS bformat ON bformat.id = book.format_id
             ";
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
-        //var result = await connection.ExecuteAsync(sql);
         
         var books = await connection.QueryAsync<Book, Title, BookDetails, Publisher, Genre, Author,BookFormat, Book>(sql,
             (book, title, bookdetails, publisher, genre, author, format) =>
@@ -110,7 +109,7 @@ public class BookRepository : IBookRepository
 
     public async Task UpdateAsync(Book itemToUpdate, CancellationToken cancellationToken = default)
     {
-        const string sql = @"
+        const string sqlUpdateBooks = @"
             UPDATE books
             SET 
                 title = @Title,
@@ -121,18 +120,20 @@ public class BookRepository : IBookRepository
                 genre_id = @GenreId,
                 format_id = @FormatId
             WHERE
-                id = @Id";
-
-        //Нужно вначале удалить все связи авторов с книгой, а потом добавить новые TODO
-        const string sql2 = @"
-            UPDATE author_book
-            SET
-                author_id = @AuthorId
+                id = @Id;
+            DELETE
+            FROM author_book 
             WHERE 
                 book_id = @BookId";
 
+        const string sqlUpdateABook = @"
+            INSERT INTO author_book 
+                (author_id, book_id)
+            VALUES
+                (@AuthorId, @BookId)";
         var parameters = new
         {
+            BookId = itemToUpdate.Id,
             Title = itemToUpdate.Title.Value,
             Quantity = itemToUpdate.Details.Quantity,
             Price = itemToUpdate.Details.Price,
@@ -144,13 +145,13 @@ public class BookRepository : IBookRepository
         
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
         
-        await connection.ExecuteAsync(sql, param: parameters);
+        await connection.ExecuteAsync(sqlUpdateBooks, param: parameters);
         
         var author = itemToUpdate.Authors.Select(a => (int)a.Id );
 
         foreach (var id in author)
         {
-            await connection.ExecuteAsync(sql2, new {AuthorId = id, BookId = itemToUpdate.Id});
+            await connection.ExecuteAsync(sqlUpdateABook, new {AuthorId = id, BookId = itemToUpdate.Id});
         }
         _changeTracker.Track(itemToUpdate);
     }
@@ -193,23 +194,23 @@ public class BookRepository : IBookRepository
         
         var parameters = new { ISBN = ISBN };
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+
         
-        var books = await connection.QueryAsync<Book, Title, BookDetails, Publisher, Genre, Author, BookFormat, Book>(sql,
-            (book, title, bookdetails, publisher, genre, author, format) =>
-            {
-                return new Book(
-                    book.Id,
-                    new BookDetails(bookdetails.Quantity, bookdetails.Price, bookdetails.PublicationDate,
-                        bookdetails.ISBN),
-                    new Title(title.Value),
-                    new Genre(genre.Id.Value, genre.Name),
-                    new List<Author>{ new Author(author.Id.Value, author.FirstName, author.LastName)},
-                    new Publisher(publisher.Id.Value, publisher.Name),
-                    new BookFormat(format.Id.Value, format.Name)
-                );
-            }, splitOn:"title,isbn,id,id,id,id", param: parameters);
-        
-        //if exception is thrown, handle IT!!! TODO
+        var books = await connection
+            .QueryAsync<Book, Title, BookDetails, Publisher, Genre, Author, BookFormat, Book>(sql,
+                (book, title, bookdetails, publisher, genre, author, format) =>
+                {
+                    return new Book(
+                        book.Id,
+                        new BookDetails(bookdetails.Quantity, bookdetails.Price, bookdetails.PublicationDate,
+                            bookdetails.ISBN),
+                        new Title(title.Value),
+                        new Genre(genre.Id.Value, genre.Name),
+                        new List<Author> { new Author(author.Id.Value, author.FirstName, author.LastName) },
+                        new Publisher(publisher.Id.Value, publisher.Name),
+                        new BookFormat(format.Id.Value, format.Name)
+                    );
+                }, splitOn: "title,isbn,id,id,id,id", param: parameters);
         
         if (books.Any())
         {
@@ -218,7 +219,7 @@ public class BookRepository : IBookRepository
             _changeTracker.Track(book);
             return book;
         }
-        
-        return null;
+
+        return null;;
     }
 }

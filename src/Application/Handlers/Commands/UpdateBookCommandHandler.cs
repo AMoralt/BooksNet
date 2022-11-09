@@ -20,7 +20,6 @@ public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
         if (bookExist is null)
             throw new System.Exception("Book not found");
         
-        await _unitOfWork.StartTransaction(cancellationToken);
         if(!DateTime.TryParseExact(request.publicationdate,"yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
         {
             if (request.publicationdate is null)
@@ -28,6 +27,8 @@ public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
             else
                 throw new System.Exception("Invalid date format");
         }
+
+        var authors = new List<Author>(request.authors.Select(authorsIds => new Author(authorsIds, null, null)));
 
         var newBook = new Book(
             bookExist.Id,
@@ -41,12 +42,11 @@ public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
                 request.title ?? bookExist.Title.Value
             ),
             new Genre(request.genreId ?? (int)bookExist.Genre.Id, null),
-            new List<Author>(request.authors.Select(authorsIds => new Author(authorsIds, null, null)))
-            ?? bookExist.Authors,
+            authors.Count > 0 ? authors : bookExist.Authors,
             new Publisher(request.publisherId ?? (int)bookExist.Publisher.Id, null),
             new BookFormat(request.formatId ?? (int)bookExist.Format.Id, null));
 
-         
+         await _unitOfWork.StartTransaction(cancellationToken);
          await _bookRepository.UpdateAsync(newBook, cancellationToken);
          await _unitOfWork.SaveChangesAsync(cancellationToken);
          return Unit.Value;
