@@ -1,5 +1,4 @@
-﻿using Domain.AggregationModels.Book;
-using MediatR;
+﻿using MediatR;
 
 namespace EmptyProjectASPNETCORE;
 

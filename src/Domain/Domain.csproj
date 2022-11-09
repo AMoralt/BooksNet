@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="AggregationModels\Book\trash" />
       <Folder Include="Exception" />
     </ItemGroup>
 

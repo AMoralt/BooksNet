@@ -1,6 +1,4 @@
-﻿using Domain.AggregationModels.Book;
-using EmptyProjectASPNETCORE;
-using MediatR;
+﻿using MediatR;
 
 namespace Domain.DomainEvents;
 

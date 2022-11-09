@@ -6,10 +6,10 @@ namespace EmptyProjectASPNETCORE;
 
 [Route("[controller]")]
 [ApiController]
-public class BookController
+public class GenreController
 {
     private readonly IMediator _mediator;
-    public BookController(IMediator mediator)
+    public GenreController(IMediator mediator)
     {
         _mediator = mediator;
     }
@@ -19,7 +19,7 @@ public class BookController
     {
         try
         {
-            var getAll = new GetAllBooksQuery();
+            var getAll = new GetAllGenresQuery();
             var result = await _mediator.Send(getAll, token);
             if (result is null)
                 return Results.NotFound();
@@ -30,13 +30,13 @@ public class BookController
             return Results.BadRequest(e.Message);
         }
     }
-    [HttpGet("{ISBN}")]
-    public async Task<IResult> GetByISBN(string ISBN, CancellationToken token)
+    [HttpGet("{id:int}")]
+    public async Task<IResult> GetById(int id, CancellationToken token)
     {
         try
         {
-            var getByISBN = new GetByISBNBookQuery(ISBN);
-            var result = await _mediator.Send(getByISBN, token);
+            var getById = new GetByIdGenreQuery(id);
+            var result = await _mediator.Send(getById, token);
             if (result is null)
                 return Results.NotFound();
             return Results.Ok(result);
@@ -47,13 +47,13 @@ public class BookController
         }
     } 
     
-    [HttpDelete("{ISBN}")]
-    public async Task<IResult> DeleteByISBN(string ISBN, CancellationToken token)
+    [HttpDelete("{id:int}")]
+    public async Task<IResult> DeleteById(int id, CancellationToken token)
     {
         try
         {
-            var deleteBookCommand = new DeleteBookCommand(ISBN);
-            await _mediator.Send(deleteBookCommand, token);
+            var deleteGenreCommand = new DeleteGenreCommand(id);
+            await _mediator.Send(deleteGenreCommand, token);
             return Results.NoContent();
         }
         catch (System.Exception e)
@@ -61,12 +61,13 @@ public class BookController
             return Results.BadRequest(e.Message);
         }
     }
-    [HttpPost]
-    public async Task<IResult> Create([FromBody] CreateBookCommand bookToCreate, CancellationToken token)
+    [HttpPost("{name:max(50)}")]
+    public async Task<IResult> Create(string name, CancellationToken token)
     {
         try
         {
-            await _mediator.Send(bookToCreate, token);
+            var createGenreCommand = new CreateGenreCommand(name);
+            await _mediator.Send(createGenreCommand, token);
             return Results.StatusCode(201);
         }
         catch (System.Exception e)
@@ -74,12 +75,13 @@ public class BookController
             return Results.BadRequest(e.Message);
         }
     }
-    [HttpPut]
-    public async Task<IResult> Update([FromBody] UpdateBookCommand bookToUpdate, CancellationToken token)
+    [HttpPut("{id:int}/{name:max(50)}")]
+    public async Task<IResult> Update(int id, string name, CancellationToken token)
     {
         try
         {
-            await _mediator.Send(bookToUpdate, token);
+            var updateGenreCommand = new UpdateGenreCommand(id,name);
+            await _mediator.Send(updateGenreCommand, token);
             return Results.StatusCode(202);
         }
         catch (System.Exception e)

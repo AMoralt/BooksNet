@@ -1,4 +1,5 @@
-﻿using EmptyProjectASPNETCORE.Exception;
+﻿using System.Data;
+using EmptyProjectASPNETCORE.Exception;
 using MediatR;
 using Npgsql;
 
@@ -26,7 +27,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
             if (!(_npgsqlTransaction is null && _dbConnectionFactory is not null))
                 return;
             var connection = await _dbConnectionFactory.CreateConnection(token);
-            _npgsqlTransaction = await connection.BeginTransactionAsync(token);
+            _npgsqlTransaction = await connection.BeginTransactionAsync(IsolationLevel.ReadCommitted, token);
         }
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken)
