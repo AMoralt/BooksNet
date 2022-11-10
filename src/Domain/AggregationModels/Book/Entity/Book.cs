@@ -26,7 +26,7 @@ public class Book : Entity
     public Title Title { get; set;}
     public Genre Genre { get; set; }
     public BookFormat Format { get; set; }
-    public List<Author> Authors { get; set; } 
+    public List<Author> Authors { get; set; }
     public Publisher Publisher { get; set;}
     public BookDetails Details { get; set;}
     public void IncreaseQuantity(int valueToIncrease)

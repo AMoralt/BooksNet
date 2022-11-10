@@ -2,15 +2,15 @@
 
 namespace EmptyProjectASPNETCORE.Migrations;
 
-[Migration(14)]
-public class AuthorBookBookIdIdx : ForwardOnlyMigration
+[Migration(15)]
+public class AuthorBook_AuthorIdIdx : ForwardOnlyMigration
 {
     public override void Up()
     {
         Create
-            .Index("AuthorBookBookIdIdx")
+            .Index("AuthorBook_AuthorIdIdx")
             .OnTable("author_book")
             .InSchema("public")
-            .OnColumn("book_id");
+            .OnColumn("author_id");
     }
 }

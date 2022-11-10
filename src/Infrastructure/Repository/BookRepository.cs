@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using System.Diagnostics;
+using Dapper;
 using Domain.AggregationModels.Book;
 using Npgsql;
 
@@ -71,8 +72,8 @@ public class BookRepository : IBookRepository
             JOIN genres AS genre ON book.genre_id = genre.id
             JOIN author_book AS abook ON abook.book_id = book.id
             JOIN authors AS author ON author.id = abook.author_id
-            JOIN book_formats AS bformat ON bformat.id = book.format_id
-            ";
+            JOIN book_formats AS bformat ON bformat.id = book.format_id";
+        
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
         
         var books = await connection.QueryAsync<Book, Title, BookDetails, Publisher, Genre, Author,BookFormat, Book>(sql,
@@ -89,7 +90,7 @@ public class BookRepository : IBookRepository
                     new BookFormat(format.Id.Value, format.Name)
                 );
             }, splitOn:"title,isbn,id,id,id,id");
-
+        
         if (!books.Any())
         {
             throw new System.Exception("No books found");
@@ -189,7 +190,6 @@ public class BookRepository : IBookRepository
         
         var parameters = new { ISBN = ISBN };
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
-
         
         var books = await connection
             .QueryAsync<Book, Title, BookDetails, Publisher, Genre, Author, BookFormat, Book>(sql,
