@@ -55,7 +55,6 @@ public class BookRepository : IBookRepository
         }
         _changeTracker.Track(itemToCreate);
     }
-
     public async Task<IEnumerable<Book>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         const string sql = @"
@@ -91,20 +90,19 @@ public class BookRepository : IBookRepository
                 );
             }, splitOn:"title,isbn,id,id,id,id");
 
-        if (books.Any())
+        if (!books.Any())
         {
-            books = books.GroupBy(p => p.Id).Select(g =>
-            {
-                var groupedPost = g.First();
-                groupedPost.Authors = g.Select(p => p.Authors.Single()).ToList();
-                return groupedPost;
-            });
-            return books;
+            throw new System.Exception("No books found");
         }
         
-        return null;
+        books = books.GroupBy(p => p.Id).Select(g =>
+        {
+            var groupedPost = g.First();
+            groupedPost.Authors = g.Select(p => p.Authors.Single()).ToList();
+            return groupedPost;
+        });
+        return books;
     }
-
     public async Task UpdateAsync(Book itemToUpdate, CancellationToken cancellationToken = default)
     {
         const string sqlUpdateBooks = @"
@@ -165,7 +163,6 @@ public class BookRepository : IBookRepository
         
         await connection.ExecuteAsync(sql, param: parameters);
     }
-
     public async Task<Book> GetByISBNAsync(string ISBN, CancellationToken cancellationToken = default)
     {
         const string sql = @"
@@ -210,14 +207,14 @@ public class BookRepository : IBookRepository
                     );
                 }, splitOn: "title,isbn,id,id,id,id", param: parameters);
         
-        if (books.Any())
+        if (!books.Any())
         {
-            var book = books.FirstOrDefault();
-            book.Authors = books.Select(p => p.Authors.Single()).ToList();
-            _changeTracker.Track(book);
-            return book;
+            throw new System.Exception($"Book with ISBN ({ISBN}) not found");
         }
-
-        return null;;
+        
+        var book = books.FirstOrDefault();
+        book.Authors = books.Select(p => p.Authors.Single()).ToList();
+        _changeTracker.Track(book);
+        return book;
     }
 }

@@ -18,6 +18,9 @@ builder.Services.AddScoped<IChangeTracker,ChangeTracker>();
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IRepository<Genre>, GenreRepository>();
+builder.Services.AddScoped<IRepository<Publisher>, PublisherRepository>();
+builder.Services.AddScoped<IRepository<BookFormat>, BookFormatRepository>();
+builder.Services.AddScoped<IRepository<Author>, AuthorRepository>();
 
 var connectionString = builder.Configuration["DatabaseConnectionOptions:ConnectionString"];
 

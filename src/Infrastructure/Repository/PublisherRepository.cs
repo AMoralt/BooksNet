@@ -1,4 +1,5 @@
-﻿using Domain.AggregationModels.Book;
+﻿using Dapper;
+using Domain.AggregationModels.Book;
 using Npgsql;
 
 namespace EmptyProjectASPNETCORE;
@@ -14,28 +15,99 @@ public class PublisherRepository : IRepository<Publisher>
         _changeTracker = changeTracker;
     }
 
-    public Task CreateAsync(Publisher itemToCreate, CancellationToken cancellationToken = default)
+    public async Task CreateAsync(Publisher itemToCreate, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        const string sql = @"
+                INSERT INTO publishers 
+                    (name)
+                VALUES 
+                    (@Name)";
+        
+        var parameters = new
+        {
+            Name = itemToCreate.Name
+        };
+        
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+        
+        await connection.ExecuteAsync(sql, param: parameters);
+        _changeTracker.Track(itemToCreate);
     }
 
-    public Task<IEnumerable<Publisher>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Publisher>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        const string sql = @"
+            SELECT 
+                publishers.id,
+                publishers.name
+            FROM publishers";
+        
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+        
+        var publishers =  await connection.QueryAsync<Publisher>(sql);
+
+        if (!publishers.Any())
+        {
+            throw new System.Exception("No publisher found");
+        }
+        
+        return publishers;
     }
 
-    public Task UpdateAsync(Publisher itemToUpdate, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Publisher itemToUpdate, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        const string sql = @"
+            UPDATE publishers
+            SET 
+                name = @Name
+            WHERE id = @Id";
+        
+        var parameters = new
+        {
+            Id = itemToUpdate.Id,
+            Name = itemToUpdate.Name
+        };
+        
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+        
+        await connection.ExecuteAsync(sql, param: parameters);
+        _changeTracker.Track(itemToUpdate);
     }
 
-    public Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        const string sql = @"
+            DELETE
+            FROM publishers
+            WHERE id = @Id";
+        
+        var parameters = new { Id = id };
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+        
+        await connection.ExecuteAsync(sql, param: parameters);
     }
 
-    public Task<Publisher> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<Publisher> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        const string sql = @"
+            SELECT 
+                publishers.id,
+                publishers.name
+            FROM publishers
+            WHERE 
+                publishers.id = @Id";
+        
+        var parameters = new { Id = id };
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+        
+        var publisher = await connection.QueryFirstOrDefaultAsync<Publisher>(sql, parameters);
+        
+        if (publisher is null)
+        {
+            throw new System.Exception($"Publisher with id {id} not found");
+        }
+
+        _changeTracker.Track(publisher);
+        return publisher;
     }
 }
