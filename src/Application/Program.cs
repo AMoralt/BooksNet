@@ -1,3 +1,4 @@
+using Domain.AggregationModels.Book;
 using EmptyProjectASPNETCORE;
 using EmptyProjectASPNETCORE.Migrations;
 using FluentMigrator.Runner;
@@ -16,7 +17,7 @@ builder.Services.AddScoped<IDbConnectionFactory<NpgsqlConnection>, NpgsqlConnect
 builder.Services.AddScoped<IChangeTracker,ChangeTracker>();
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
-builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+builder.Services.AddScoped<IRepository<Genre>, GenreRepository>();
 
 var connectionString = builder.Configuration["DatabaseConnectionOptions:ConnectionString"];
 

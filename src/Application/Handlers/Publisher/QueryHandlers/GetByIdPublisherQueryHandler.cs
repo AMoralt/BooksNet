@@ -6,9 +6,9 @@ namespace EmptyProjectASPNETCORE;
 
 public class GetByIdPublisherQueryHandler : IRequestHandler<GetByIdPublisherQuery, Publisher>
 {
-    private readonly IPublisherRepository _publisherRepository;
+    private readonly IRepository<Publisher> _publisherRepository;
 
-    public GetByIdPublisherQueryHandler(IPublisherRepository publisherRepository)
+    public GetByIdPublisherQueryHandler(IRepository<Publisher> publisherRepository)
     {
         _publisherRepository = publisherRepository;
     }

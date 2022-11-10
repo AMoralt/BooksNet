@@ -3,7 +3,7 @@ using Npgsql;
 
 namespace EmptyProjectASPNETCORE;
 
-public class GenreRepository : IGenreRepository
+public class GenreRepository : IRepository<Genre>
 {
     private readonly IDbConnectionFactory<NpgsqlConnection> _dbConnectionFactory;
     private readonly IChangeTracker _changeTracker;

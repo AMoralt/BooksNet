@@ -6,9 +6,9 @@ namespace EmptyProjectASPNETCORE;
 
 public class GetAllPublishersQueryHandler : IRequestHandler<GetAllPublishersQuery, IEnumerable<Publisher>>
 {
-    private readonly IPublisherRepository _publisherRepository;
+    private readonly IRepository<Publisher> _publisherRepository;
 
-    public GetAllPublishersQueryHandler(IPublisherRepository publisherRepository)
+    public GetAllPublishersQueryHandler(IRepository<Publisher> publisherRepository)
     {
         _publisherRepository = publisherRepository;
     }

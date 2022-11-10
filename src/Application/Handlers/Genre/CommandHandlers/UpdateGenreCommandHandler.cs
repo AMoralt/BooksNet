@@ -5,9 +5,9 @@ namespace EmptyProjectASPNETCORE;
 
 public class UpdateGenreCommandHandler : IRequestHandler<UpdateGenreCommand>
 {
-    private readonly IGenreRepository _genreRepository;
+    private readonly IRepository<Genre> _genreRepository;
     private readonly IUnitOfWork _unitOfWork;
-    public UpdateGenreCommandHandler(IGenreRepository genreRepository, IUnitOfWork unitOfWork)
+    public UpdateGenreCommandHandler(IRepository<Genre> genreRepository, IUnitOfWork unitOfWork)
     {
         _genreRepository = genreRepository;
         _unitOfWork = unitOfWork;

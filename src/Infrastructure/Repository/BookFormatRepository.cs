@@ -3,28 +3,28 @@ using Npgsql;
 
 namespace EmptyProjectASPNETCORE;
 
-public class PublisherRepository : IRepository<Publisher>
+public class BookFormatRepository : IRepository<BookFormat>
 {
     private readonly IDbConnectionFactory<NpgsqlConnection> _dbConnectionFactory;
     private readonly IChangeTracker _changeTracker;
-    public PublisherRepository(IDbConnectionFactory<NpgsqlConnection> dbConnectionFactory,
+    public BookFormatRepository(IDbConnectionFactory<NpgsqlConnection> dbConnectionFactory,
         IChangeTracker changeTracker)
     {
         _dbConnectionFactory = dbConnectionFactory;
         _changeTracker = changeTracker;
     }
 
-    public Task CreateAsync(Publisher itemToCreate, CancellationToken cancellationToken = default)
+    public Task CreateAsync(BookFormat itemToCreate, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Publisher>> GetAllAsync(CancellationToken cancellationToken = default)
+    public Task<IEnumerable<BookFormat>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
-    public Task UpdateAsync(Publisher itemToUpdate, CancellationToken cancellationToken = default)
+    public Task UpdateAsync(BookFormat itemToUpdate, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
@@ -34,7 +34,7 @@ public class PublisherRepository : IRepository<Publisher>
         throw new NotImplementedException();
     }
 
-    public Task<Publisher> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public Task<BookFormat> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

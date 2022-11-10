@@ -5,9 +5,9 @@ namespace EmptyProjectASPNETCORE;
 
 public class UpdatePublisherCommandHandler : IRequestHandler<UpdatePublisherCommand>
 {
-    private readonly IPublisherRepository _publisherRepository;
+    private readonly IRepository<Publisher> _publisherRepository;
     private readonly IUnitOfWork _unitOfWork;
-    public UpdatePublisherCommandHandler(IPublisherRepository publisherRepository, IUnitOfWork unitOfWork)
+    public UpdatePublisherCommandHandler(IRepository<Publisher> publisherRepository, IUnitOfWork unitOfWork)
     {
         _publisherRepository = publisherRepository;
         _unitOfWork = unitOfWork;

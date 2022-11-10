@@ -6,9 +6,9 @@ namespace EmptyProjectASPNETCORE;
 
 public class GetAllGenresQueryHandler : IRequestHandler<GetAllGenresQuery, IEnumerable<Genre>>
 {
-    private readonly IGenreRepository _genreRepository;
+    private readonly IRepository<Genre> _genreRepository;
 
-    public GetAllGenresQueryHandler(IGenreRepository genreRepository)
+    public GetAllGenresQueryHandler(IRepository<Genre> genreRepository)
     {
         _genreRepository = genreRepository;
     }

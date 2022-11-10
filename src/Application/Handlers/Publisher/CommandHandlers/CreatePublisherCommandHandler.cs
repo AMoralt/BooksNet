@@ -5,9 +5,9 @@ namespace EmptyProjectASPNETCORE;
 
 public class CreatePublisherCommandHandler : IRequestHandler<CreatePublisherCommand>
 {
-    private readonly IPublisherRepository _publisherRepository;
+    private readonly IRepository<Publisher> _publisherRepository;
     private readonly IUnitOfWork _unitOfWork;
-    public CreatePublisherCommandHandler(IPublisherRepository publisherRepository, IUnitOfWork unitOfWork)
+    public CreatePublisherCommandHandler(IRepository<Publisher> publisherRepository, IUnitOfWork unitOfWork)
     {
         _publisherRepository = publisherRepository;
         _unitOfWork = unitOfWork;

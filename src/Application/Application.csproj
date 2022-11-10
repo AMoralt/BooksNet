@@ -19,11 +19,7 @@
       <Folder Include="Contracts" />
       <Folder Include="Exception" />
       <Folder Include="Extensions" />
-      <Folder Include="Handlers\Author\CommandHandlers" />
-      <Folder Include="Handlers\Author\QueryHandlers" />
       <Folder Include="Handlers\Book" />
-      <Folder Include="Handlers\BookFormat\CommandHandlers" />
-      <Folder Include="Handlers\BookFormat\QueryHandlers" />
       <Folder Include="Middlewares" />
     </ItemGroup>
 

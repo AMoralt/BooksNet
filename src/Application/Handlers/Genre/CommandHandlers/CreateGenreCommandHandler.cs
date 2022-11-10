@@ -5,9 +5,9 @@ namespace EmptyProjectASPNETCORE;
 
 public class CreateGenreCommandHandler : IRequestHandler<CreateGenreCommand>
 {
-    private readonly IGenreRepository _genreRepository;
+    private readonly IRepository<Genre> _genreRepository;
     private readonly IUnitOfWork _unitOfWork;
-    public CreateGenreCommandHandler(IGenreRepository genreRepository, IUnitOfWork unitOfWork)
+    public CreateGenreCommandHandler(IRepository<Genre> genreRepository, IUnitOfWork unitOfWork)
     {
         _genreRepository = genreRepository;
         _unitOfWork = unitOfWork;

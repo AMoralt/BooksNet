@@ -1,12 +1,13 @@
-﻿using MediatR;
+﻿using Domain.AggregationModels.Book;
+using MediatR;
 
 namespace EmptyProjectASPNETCORE;
 
 public class DeletePublisherCommandHandler : IRequestHandler<DeletePublisherCommand>
 {
-    private readonly IPublisherRepository _publisherRepository;
+    private readonly IRepository<Publisher> _publisherRepository;
     private readonly IUnitOfWork _unitOfWork;
-    public DeletePublisherCommandHandler(IPublisherRepository publisherRepository, IUnitOfWork unitOfWork)
+    public DeletePublisherCommandHandler(IRepository<Publisher> publisherRepository, IUnitOfWork unitOfWork)
     {
         _publisherRepository = publisherRepository;
         _unitOfWork = unitOfWork;
