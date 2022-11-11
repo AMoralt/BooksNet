@@ -29,6 +29,8 @@ public class Book : Entity
     public List<Author> Authors { get; set; } 
     public Publisher Publisher { get; set;}
     public BookDetails Details { get; set;}
+    public IEnumerable<char> ISBN { get; set; }
+
     public void IncreaseQuantity(int valueToIncrease)
     {
         Details.Quantity += valueToIncrease;
