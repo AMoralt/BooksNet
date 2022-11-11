@@ -1,4 +1,5 @@
-﻿using Domain.AggregationModels.Book;
+﻿using Dapper;
+using Domain.AggregationModels.Book;
 using Npgsql;
 
 namespace EmptyProjectASPNETCORE;
@@ -13,28 +14,101 @@ public class GenreRepository : IRepository<Genre>
         _dbConnectionFactory = dbConnectionFactory;
         _changeTracker = changeTracker;
     }
-    public Task CreateAsync(Genre itemToCreate, CancellationToken cancellationToken = default)
+    public async Task CreateAsync(Genre itemToCreate, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        const string sql = @"
+                INSERT INTO genres 
+                    (name)
+                VALUES 
+                    (@Name)";
+        
+        var parameters = new
+        {
+            Name = itemToCreate.Name
+        };
+        
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+        
+        await connection.ExecuteAsync(sql, param: parameters);
+        _changeTracker.Track(itemToCreate);
     }
 
-    public Task<IEnumerable<Genre>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Genre>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        const string sql = @"
+            SELECT 
+                genres.id,
+                genres.name
+            FROM genres";
+        
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+        
+        var genres =  await connection.QueryAsync(sql);
+
+        if (!genres.Any())
+        {
+            throw new System.Exception("No Genres found");
+        }
+        
+        return genres as IEnumerable<Genre>;
+
     }
 
-    public Task UpdateAsync(Genre itemToUpdate, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Genre itemToUpdate, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        const string sql = @"
+            UPDATE genres
+            SET 
+                name = @Name
+            WHERE id = @Id";
+        
+        var parameters = new
+        {
+            Id = itemToUpdate.Id,
+            Name = itemToUpdate.Name
+        };
+        
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+        
+        await connection.ExecuteAsync(sql, param: parameters);
+        _changeTracker.Track(itemToUpdate);
     }
 
-    public Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        const string sql = @"
+            DELETE
+            FROM genres
+            WHERE id = @Id";
+        
+        var parameters = new { Id = id };
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+        
+        await connection.ExecuteAsync(sql, param: parameters);
+
     }
 
-    public Task<Genre> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<Genre> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        const string sql = @"
+            SELECT 
+                genres.id,
+                genres.name
+            FROM genres
+            WHERE 
+                genres.id = @Id";
+        
+        var parameters = new { Id = id };
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+        
+        var genre = await connection.QueryFirstOrDefaultAsync(sql, parameters);
+        
+        if (genre is null)
+        {
+            throw new System.Exception($"Genre with id {id} not found");
+        }
+
+        _changeTracker.Track(genre);
+        return genre;
     }
 }
