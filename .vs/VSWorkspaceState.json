@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\Infrastructure",
+    "\\src\\Infrastructure\\Repository",
+    "\\tests",
+    "\\tests\\Application.Tests"
+  ],
+  "SelectedNode": "\\Books.sln",
+  "PreviewInSolutionExplorer": false
+}
