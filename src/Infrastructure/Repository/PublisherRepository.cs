@@ -44,14 +44,14 @@ public class PublisherRepository : IRepository<Publisher>
         
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
         
-        var publishers =  await connection.QueryAsync(sql);
+        var publishers =  await connection.QueryAsync<Publisher>(sql);
 
         if (!publishers.Any())
         {
             throw new System.Exception("No publishers found");
         }
         
-        return publishers as IEnumerable<Publisher>;
+        return publishers;
     }
 
     public async Task UpdateAsync(Publisher itemToUpdate, CancellationToken cancellationToken = default)
@@ -100,7 +100,7 @@ public class PublisherRepository : IRepository<Publisher>
         var parameters = new { Id = id };
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
         
-        var publisher = await connection.QueryFirstOrDefaultAsync(sql, parameters);
+        var publisher = await connection.QueryFirstOrDefaultAsync<Publisher>(sql, parameters);
         
         if (publisher is null)
         {

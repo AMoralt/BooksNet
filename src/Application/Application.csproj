@@ -15,12 +15,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Attributes" />
       <Folder Include="Contracts" />
       <Folder Include="Exception" />
       <Folder Include="Extensions" />
       <Folder Include="Handlers\Book" />
-      <Folder Include="Middlewares" />
     </ItemGroup>
 
     <ItemGroup>

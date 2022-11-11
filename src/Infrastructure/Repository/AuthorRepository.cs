@@ -1,4 +1,5 @@
-﻿using Domain.AggregationModels.Book;
+﻿using Dapper;
+using Domain.AggregationModels.Book;
 using Npgsql;
 
 namespace EmptyProjectASPNETCORE;
@@ -14,14 +15,45 @@ public class AuthorRepository : IRepository<Author>
         _changeTracker = changeTracker;
     }
 
-    public Task CreateAsync(Author itemToCreate, CancellationToken cancellationToken = default)
+    public async Task CreateAsync(Author itemToCreate, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        const string sql = @"
+                INSERT INTO authors 
+                    (firstname, lastname)
+                VALUES 
+                    (@First, @Last)";
+        
+        var parameters = new
+        {
+            First = itemToCreate.FirstName,
+            Last = itemToCreate.LastName
+        };
+        
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+        
+        await connection.ExecuteAsync(sql, param: parameters);
+        _changeTracker.Track(itemToCreate);
     }
 
-    public Task<IEnumerable<Author>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Author>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        const string sql = @"
+            SELECT 
+                authors.id,
+                authors.lastname,
+                authors.firstname
+            FROM authors";
+        
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+        
+        var authors =  await connection.QueryAsync<Author>(sql);
+
+        if (!authors.Any())
+        {
+            throw new System.Exception("No authors found");
+        }
+        
+        return authors;
     }
 
     public Task UpdateAsync(Author itemToUpdate, CancellationToken cancellationToken = default)
@@ -29,13 +61,41 @@ public class AuthorRepository : IRepository<Author>
         throw new NotImplementedException();
     }
 
-    public Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        const string sql = @"
+            DELETE
+            FROM authors
+            WHERE id = @Id";
+        
+        var parameters = new { Id = id };
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+        
+        await connection.ExecuteAsync(sql, param: parameters);
     }
 
-    public Task<Author> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<Author> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        const string sql = @"
+            SELECT 
+                authors.id,
+                authors.lastname,
+                authors.firstname
+            FROM authors
+            WHERE 
+                authors.id = @Id";
+        
+        var parameters = new { Id = id };
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+        
+        var author = await connection.QueryFirstOrDefaultAsync<Author>(sql, parameters);
+        
+        if (author is null)
+        {
+            throw new System.Exception($"Author with id {id} not found");
+        }
+
+        _changeTracker.Track(author);
+        return author;
     }
 }

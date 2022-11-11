@@ -43,14 +43,14 @@ public class BookFormatRepository : IRepository<BookFormat>
         
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
         
-        var publishers =  await connection.QueryAsync(sql);
+        var bookFormat =  await connection.QueryAsync<BookFormat>(sql);
 
-        if (!publishers.Any())
+        if (!bookFormat.Any())
         {
             throw new System.Exception("No BookFormat found");
         }
         
-        return publishers as IEnumerable<BookFormat>;
+        return bookFormat;
     }
 
     public async Task UpdateAsync(BookFormat itemToUpdate, CancellationToken cancellationToken = default)
@@ -99,7 +99,7 @@ public class BookFormatRepository : IRepository<BookFormat>
         var parameters = new { Id = id };
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
         
-        var bookFormat = await connection.QueryFirstOrDefaultAsync(sql, parameters);
+        var bookFormat = await connection.QueryFirstOrDefaultAsync<BookFormat>(sql, parameters);
         
         if (bookFormat is null)
         {

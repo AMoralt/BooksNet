@@ -4,7 +4,7 @@ using TemplateASP.NET.CORE.Query;
 
 namespace EmptyProjectASPNETCORE;
 
-public class GetByIdBookFormatQueryHandler : IRequestHandler<GetByIdBookFormatQuery, BookFormat>
+public class GetByIdBookFormatQueryHandler : IRequestHandler<GetByIdBookFormatQuery, GetBookFormatResponse>
 {
     private readonly IRepository<BookFormat> _bookFormatRepository;
 
@@ -13,9 +13,10 @@ public class GetByIdBookFormatQueryHandler : IRequestHandler<GetByIdBookFormatQu
         _bookFormatRepository = bookFormatRepository;
     }
 
-    public async Task<BookFormat> Handle(GetByIdBookFormatQuery request, CancellationToken cancellationToken)
+    public async Task<GetBookFormatResponse> Handle(GetByIdBookFormatQuery request, CancellationToken cancellationToken)
     {
-        var result= await _bookFormatRepository.GetByIdAsync(request.id,cancellationToken);
+        var bookFormat= await _bookFormatRepository.GetByIdAsync(request.id,cancellationToken);
+        var result = new GetBookFormatResponse(bookFormat.Id.Value, bookFormat.Name);
         return result;
     }
 }

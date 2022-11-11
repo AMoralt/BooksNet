@@ -4,7 +4,7 @@ using TemplateASP.NET.CORE.Query;
 
 namespace EmptyProjectASPNETCORE;
 
-public class GetByIdGenreQueryHandler : IRequestHandler<GetByIdGenreQuery, Genre>
+public class GetByIdGenreQueryHandler : IRequestHandler<GetByIdGenreQuery, GetGenreResponse>
 {
     private readonly IRepository<Genre> _genreRepository;
 
@@ -13,9 +13,10 @@ public class GetByIdGenreQueryHandler : IRequestHandler<GetByIdGenreQuery, Genre
         _genreRepository = genreRepository;
     }
 
-    public async Task<Genre> Handle(GetByIdGenreQuery request, CancellationToken cancellationToken)
+    public async Task<GetGenreResponse> Handle(GetByIdGenreQuery request, CancellationToken cancellationToken)
     {
-        var result= await _genreRepository.GetByIdAsync(request.id,cancellationToken);
+        var genre= await _genreRepository.GetByIdAsync(request.id,cancellationToken);
+        var result = new GetGenreResponse(genre.Id.Value, genre.Name);
         return result;
     }
 }

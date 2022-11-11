@@ -14,7 +14,7 @@ public class Publisher : Entity
     {
         if(string.IsNullOrEmpty(name))
             throw new Exception("Publisher name is required");
-        if(!name.All(char.IsLetter))
+        if(!string.Concat(name.Where(c=>!char.IsWhiteSpace(c))).All(char.IsLetter) )
             throw new Exception("Publisher name must contain only letters");
         if(name.Length > 50) 
             throw new Exception("Publisher name must be less than 50 characters");

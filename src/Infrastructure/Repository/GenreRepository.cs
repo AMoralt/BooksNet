@@ -43,14 +43,14 @@ public class GenreRepository : IRepository<Genre>
         
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
         
-        var genres =  await connection.QueryAsync(sql);
+        var genres =  await connection.QueryAsync<Genre>(sql);
 
         if (!genres.Any())
         {
             throw new System.Exception("No Genres found");
         }
         
-        return genres as IEnumerable<Genre>;
+        return genres;
 
     }
 
@@ -101,7 +101,7 @@ public class GenreRepository : IRepository<Genre>
         var parameters = new { Id = id };
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
         
-        var genre = await connection.QueryFirstOrDefaultAsync(sql, parameters);
+        var genre = await connection.QueryFirstOrDefaultAsync<Genre>(sql, parameters);
         
         if (genre is null)
         {

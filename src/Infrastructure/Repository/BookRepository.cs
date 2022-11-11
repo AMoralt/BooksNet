@@ -117,7 +117,7 @@ public class BookRepository : IBookRepository
                 genre_id = @GenreId,
                 format_id = @FormatId
             WHERE
-                id = @Id;
+                id = @BookId;
             DELETE
             FROM author_book 
             WHERE 
@@ -128,6 +128,7 @@ public class BookRepository : IBookRepository
                 (author_id, book_id)
             VALUES
                 (@AuthorId, @BookId)";
+        
         var parameters = new
         {
             BookId = itemToUpdate.Id,

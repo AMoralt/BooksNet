@@ -4,7 +4,7 @@ using TemplateASP.NET.CORE.Query;
 
 namespace EmptyProjectASPNETCORE;
 
-public class GetAllAuthorsQueryHandler : IRequestHandler<GetAllAuthorsQuery, IEnumerable<Author>>
+public class GetAllAuthorsQueryHandler : IRequestHandler<GetAllAuthorsQuery, IEnumerable<GetAuthorResponse>>
 {
     private readonly IRepository<Author> _authorRepository;
 
@@ -13,9 +13,10 @@ public class GetAllAuthorsQueryHandler : IRequestHandler<GetAllAuthorsQuery, IEn
         _authorRepository = authorRepository;
     }
 
-    public async Task<IEnumerable<Author>> Handle(GetAllAuthorsQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<GetAuthorResponse>> Handle(GetAllAuthorsQuery request, CancellationToken cancellationToken)
     {
-        var result= await _authorRepository.GetAllAsync(cancellationToken);
+        var authors= await _authorRepository.GetAllAsync(cancellationToken);
+        var result = authors.Select(a => new GetAuthorResponse(a.Id.Value, a.LastName, a.FirstName));
         return result;
     }
 }
