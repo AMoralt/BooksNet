@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "ghabQc7G7UTpU/gtRuBFmo6xnx5RRCaqHxAwnN+04WNF8df/YELEaz61L81irBzKhrm8EGQ2gXXEY5+S+4WUJA==",
+  "dgSpecHash": "Rrne/Z+YenaFOniYYYspl/N5u6zIaEBnKz/n8PisJ65qtPyzdyX0P+mxpWLyCdVG2CjfopVSVjE64QQL/qkuag==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Альберт\\source\\repos\\BooksNet\\src\\Domain\\Domain.csproj",
+  "projectFilePath": "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Domain\\Domain.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Альберт\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512"
+    "C:\\Users\\ahusa\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512"
   ],
   "logs": []
 }

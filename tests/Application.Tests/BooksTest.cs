@@ -1,9 +1,12 @@
 using Domain.AggregationModels.Book;
 using EmptyProjectASPNETCORE;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient.Server;
 using Moq;
 using System.Drawing.Printing;
+using System.Security.Policy;
 using TemplateASP.NET.CORE.Query;
 
 namespace Application.Tests;
@@ -11,48 +14,58 @@ namespace Application.Tests;
 public class BooksTest
 {
     [Fact]
-    public void Test_GetAllBooksQuery()
+    public void Test_GetAll()
     {
-        //test GetAllBooksQuery
-        var mock = new Mock<IMediator>();
-        var getAllBooksQuery = new GetAllBooksQuery();
-        var result = mock.Object.Send(getAllBooksQuery);
+        var cancellationToken = new CancellationToken();
+        //test controller GetAll with mock
+        var mockMediator = new Mock<IMediator>();
+        var controller = new BookController(mockMediator.Object);
+        var result = controller.GetAll(cancellationToken);
         Assert.NotNull(result);
     }
 
     [Fact]
-    public void Test_GetAll()
+    public void Test_GetByISBN()
     {
-        var mediator = new Mock<IMediator>();
-
-        BookController controller = new BookController(mediator);
-        var books = controller.GetAll(new CancellationToken());
-
-        Assert.Equal(GetTestBooks().Count(), books.Count());
-    }
-    private IEnumerable<Book> GetTestBooks()
-    {
-        var books = new List<Book>
-        {
-        new Book()
-        };
-        return books;
-    }
-    
-}
-
-[Fact]
-    public void Test_GetByISBNBookQuery()
-    {
-        //test GetByISBNBookQuery
-        var mock = new Mock<IMediator>();
-        var getByISBNBookQuery = new GetByISBNBookQuery("9785041549435");
-        var result = mock.Object.Send(getByISBNBookQuery);
+        var cancellationToken = new CancellationToken();
+        var mockMediator = new Mock<IMediator>();
+        var controller = new BookController(mockMediator.Object);
+        var result = controller.GetByISBN("9785171341671", cancellationToken);
         Assert.NotNull(result);
-        Assert.Equal("9785041549435", result.Result.ISBN);
+        //Assert.Equal("9785171341671", result);
     }
 
-    
+
+    [Fact]
+    public void Test_DeleteByISBN()
+    {
+        var cancellationToken = new CancellationToken();
+        var mockMediator = new Mock<IMediator>();
+        var controller = new BookController(mockMediator.Object);
+        var result = controller.DeleteByISBN("9785171341671", cancellationToken);
+        Assert.NotNull(result);
+    }
+
+    [Fact]
+    public void Test_Create()
+    {
+        var cancellationToken = new CancellationToken();
+        var mockMediator = new Mock<IMediator>();
+        var controller = new BookController(mockMediator.Object);
+        var result = controller.DeleteByISBN("9785171341671", cancellationToken);
+        Assert.NotNull(result);
+
+    }
+
+    [Fact]
+    public void Test_Update()
+    {
+        var cancellationToken = new CancellationToken();
+        var mockMediator = new Mock<IMediator>();
+        var controller = new BookController(mockMediator.Object);
+        var result = controller.DeleteByISBN("9785171341671", cancellationToken);
+        Assert.NotNull(result);
+    }
 }
 
 // [FACT - метод без параметров.]
