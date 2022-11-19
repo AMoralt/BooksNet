@@ -1,43 +1,36 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ahusa\\source\\repos\\BooksNet\\tests\\Application.Tests\\Application.Tests.csproj": {}
+    "C:\\Users\\AMoralt\\RiderProjects\\Books\\tests\\Application.Tests\\Application.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Application\\Application.csproj": {
+    "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Application\\Application.csproj",
+        "projectUniqueName": "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Application\\Application.csproj",
-        "packagesPath": "C:\\Users\\ahusa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Application\\obj\\",
+        "projectPath": "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Application\\Application.csproj",
+        "packagesPath": "C:\\Users\\AMoralt\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Application\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ahusa\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\AMoralt\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Domain\\Domain.csproj"
+              "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Domain\\Domain.csproj"
               },
-              "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Infrastructure\\Infrastructure.csproj"
+              "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Infrastructure\\Infrastructure.csproj"
               }
             }
           }
@@ -88,33 +81,26 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\AMoralt\\.dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Domain\\Domain.csproj": {
+    "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\ahusa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Domain\\obj\\",
+        "projectPath": "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\AMoralt\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Domain\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ahusa\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\AMoralt\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -154,41 +140,34 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\AMoralt\\.dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Infrastructure\\Infrastructure.csproj": {
+    "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Infrastructure\\Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\ahusa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Infrastructure\\obj\\",
+        "projectPath": "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Infrastructure\\Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\AMoralt\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ahusa\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\AMoralt\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Domain\\Domain.csproj"
+              "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Domain\\Domain.csproj"
               }
             }
           }
@@ -236,41 +215,34 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\AMoralt\\.dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\ahusa\\source\\repos\\BooksNet\\tests\\Application.Tests\\Application.Tests.csproj": {
+    "C:\\Users\\AMoralt\\RiderProjects\\Books\\tests\\Application.Tests\\Application.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ahusa\\source\\repos\\BooksNet\\tests\\Application.Tests\\Application.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\AMoralt\\RiderProjects\\Books\\tests\\Application.Tests\\Application.Tests.csproj",
         "projectName": "Application.Tests",
-        "projectPath": "C:\\Users\\ahusa\\source\\repos\\BooksNet\\tests\\Application.Tests\\Application.Tests.csproj",
-        "packagesPath": "C:\\Users\\ahusa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ahusa\\source\\repos\\BooksNet\\tests\\Application.Tests\\obj\\",
+        "projectPath": "C:\\Users\\AMoralt\\RiderProjects\\Books\\tests\\Application.Tests\\Application.Tests.csproj",
+        "packagesPath": "C:\\Users\\AMoralt\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\AMoralt\\RiderProjects\\Books\\tests\\Application.Tests\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ahusa\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\AMoralt\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Application\\Application.csproj": {
-                "projectPath": "C:\\Users\\ahusa\\source\\repos\\BooksNet\\src\\Application\\Application.csproj"
+              "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Application\\Application.csproj": {
+                "projectPath": "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Application\\Application.csproj"
               }
             }
           }
@@ -330,7 +302,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\AMoralt\\.dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

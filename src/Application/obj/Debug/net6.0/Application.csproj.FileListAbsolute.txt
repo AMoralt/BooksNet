@@ -339,3 +339,4 @@ C:\Users\ahusa\source\repos\BooksNet\src\Application\obj\Debug\net6.0\scopedcss\
 C:\Users\ahusa\source\repos\BooksNet\src\Application\obj\Debug\net6.0\Application.csproj.CopyComplete
 C:\Users\ahusa\source\repos\BooksNet\src\Application\obj\Debug\net6.0\Application.genruntimeconfig.cache
 C:\Users\ahusa\source\repos\BooksNet\src\Application\obj\Debug\net6.0\ref\Application.dll
+C:\Users\AMoralt\RiderProjects\Books\src\Application\bin\Debug\net6.0\Application.xml

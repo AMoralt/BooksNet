@@ -1,0 +1,6 @@
+C:\Users\AMoralt\RiderProjects\Books\src\Application\bin\Release\net6.0\linux-x64\publish\appsettings.Development.json
+C:\Users\AMoralt\RiderProjects\Books\src\Application\bin\Release\net6.0\linux-x64\publish\appsettings.json
+C:\Users\AMoralt\RiderProjects\Books\src\Application\bin\Release\net6.0\linux-x64\publish\Application.pdb
+C:\Users\AMoralt\RiderProjects\Books\src\Application\bin\Release\net6.0\linux-x64\publish\Domain.pdb
+C:\Users\AMoralt\RiderProjects\Books\src\Application\bin\Release\net6.0\linux-x64\publish\Infrastructure.pdb
+C:\Users\AMoralt\RiderProjects\Books\src\Application\bin\Release\net6.0\linux-x64\publish\Application

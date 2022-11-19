@@ -56,9 +56,26 @@ public class AuthorRepository : IRepository<Author>
         return authors;
     }
 
-    public Task UpdateAsync(Author itemToUpdate, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Author itemToUpdate, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        const string sql = @"
+            UPDATE authors
+            SET 
+                firstname = @First,
+                lastname = @Last
+            WHERE id = @Id";
+        
+        var parameters = new
+        {
+            Id = itemToUpdate.Id,
+            Last = itemToUpdate.LastName,
+            First = itemToUpdate.FirstName
+        };
+        
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+        
+        await connection.ExecuteAsync(sql, param: parameters);
+        _changeTracker.Track(itemToUpdate);
     }
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)

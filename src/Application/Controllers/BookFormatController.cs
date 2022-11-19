@@ -13,8 +13,15 @@ public class BookFormatController
     {
         _mediator = mediator;
     }
-    
-    [HttpGet("GetAll")]
+    /// <summary>
+    /// Gets the list of all Book Formats
+    /// </summary>
+    /// <returns>The list of Book Formats</returns>
+    [HttpGet]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(400)]
+    [Produces("application/json")]
     public async Task<IResult> GetAll(CancellationToken token)
     {
         try
@@ -30,7 +37,15 @@ public class BookFormatController
             return Results.BadRequest(e.Message);
         }
     }
+    /// <summary>
+    /// Gets Book Format by id
+    /// </summary>
+    /// <param name="id"></param>
     [HttpGet("{id:int}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(400)]
+    [Produces("application/json")]
     public async Task<IResult> GetById(int id, CancellationToken token)
     {
         try
@@ -46,8 +61,14 @@ public class BookFormatController
             return Results.BadRequest(e.Message);
         }
     } 
-    
+    /// <summary>
+    /// Deletes Book Format by id
+    /// </summary>
+    /// <param name="id"></param>
     [HttpDelete("{id:int}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    [Produces("application/json")]
     public async Task<IResult> DeleteById(int id, CancellationToken token)
     {
         try
@@ -61,7 +82,21 @@ public class BookFormatController
             return Results.BadRequest(e.Message);
         }
     }
+    /// <summary>
+    /// Creates Book Format
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    /// 
+    ///     POST /BookFormat
+    ///     {
+    ///         "name": "Book format description",
+    ///     }
+    /// </remarks>
     [HttpPost("{name}")]
+    [ProducesResponseType(201)]
+    [ProducesResponseType(400)]
+    [Produces("application/json")]
     public async Task<IResult> Create(string name, CancellationToken token)
     {
         try
@@ -75,7 +110,22 @@ public class BookFormatController
             return Results.BadRequest(e.Message);
         }
     }
+    /// <summary>
+    /// Updates Book Format
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    /// 
+    ///     PUT /BookFormat/1
+    ///     {
+    ///         "id": 1,
+    ///         "name": "Book format description"
+    ///    }
+    /// </remarks>
     [HttpPut("{id:int}/{name}")]
+    [ProducesResponseType(202)]
+    [ProducesResponseType(400)]
+    [Produces("application/json")]
     public async Task<IResult> Update(int id, string name, CancellationToken token)
     {
         try

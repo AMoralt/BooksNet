@@ -14,7 +14,15 @@ public class PublisherController
         _mediator = mediator;
     }
     
-    [HttpGet("GetAll")]
+    /// <summary>
+    /// Gets the list of all Publishers
+    /// </summary>
+    /// <returns>The list of Publishers</returns>
+    [HttpGet]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(400)]
+    [Produces("application/json")]
     public async Task<IResult> GetAll(CancellationToken token)
     {
         try
@@ -30,7 +38,15 @@ public class PublisherController
             return Results.BadRequest(e.Message);
         }
     }
+    /// <summary>
+    /// Gets Publisher by id
+    /// </summary>
+    /// <param name="id"></param>
     [HttpGet("{id:int}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(400)]
+    [Produces("application/json")]
     public async Task<IResult> GetById(int id, CancellationToken token)
     {
         try
@@ -47,7 +63,14 @@ public class PublisherController
         }
     } 
     
+    /// <summary>
+    /// Deletes Publisher by id
+    /// </summary>
+    /// <param name="id"></param>
     [HttpDelete("{id:int}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    [Produces("application/json")]
     public async Task<IResult> DeleteById(int id, CancellationToken token)
     {
         try
@@ -61,7 +84,21 @@ public class PublisherController
             return Results.BadRequest(e.Message);
         }
     }
+    /// <summary>
+    /// Creates Publisher
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    /// 
+    ///     POST /Publisher
+    ///     {
+    ///         "name": "Publisher name",
+    ///     }
+    /// </remarks>
     [HttpPost("{name}")]
+    [ProducesResponseType(201)]
+    [ProducesResponseType(400)]
+    [Produces("application/json")]
     public async Task<IResult> Create(string name, CancellationToken token)
     {
         try
@@ -75,7 +112,22 @@ public class PublisherController
             return Results.BadRequest(e.Message);
         }
     }
+    /// <summary>
+    /// Updates Publisher
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    /// 
+    ///     PUT /Publisher/1
+    ///     {
+    ///         "id": 1,
+    ///         "name": "Publisher name"
+    ///    }
+    /// </remarks>
     [HttpPut("{id:int}/{name}")]
+    [ProducesResponseType(202)]
+    [ProducesResponseType(400)]
+    [Produces("application/json")]
     public async Task<IResult> Update(int id, string name, CancellationToken token)
     {
         try

@@ -13,9 +13,8 @@ public class Title : ValueObject
     public static Title Create(string title)
     {
         if (string.IsNullOrWhiteSpace(title))
-        {
             throw new ArgumentNullException(nameof(title));
-        }
+        
         return new Title(title);
     }
     protected override IEnumerable<object> GetEqualityComponents()

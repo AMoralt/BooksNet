@@ -1,15 +1,39 @@
+using System.Reflection;
 using Domain.AggregationModels.Book;
 using EmptyProjectASPNETCORE;
 using EmptyProjectASPNETCORE.Migrations;
 using FluentMigrator.Runner;
 using MediatR;
+using Microsoft.OpenApi.Models;
 using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "BooksNet API",
+        Version = "v1",
+        Description = "API для выполнения операций над книгами, авторами, издательствами, жанрами, а также над форматами книг",
+        TermsOfService = new Uri("https://example.com/terms"),
+        Contact = new OpenApiContact
+        {
+            Name = "with developers",
+            Email = "dias_galym@bk.ru",
+        },
+        License = new OpenApiLicense
+        {
+            Name = "BooksNet API LICENSE",
+            Url = new Uri("https://example.com/license"),
+        }
+    });
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+});
 
 builder.Services.Configure<DatabaseConnectionOptions>(builder.Configuration.GetSection("DatabaseConnectionOptions"));
 builder.Services.AddMediatR(typeof(Program), typeof(DatabaseConnectionOptions));

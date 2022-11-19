@@ -7,6 +7,10 @@
         <UserSecretsId>6474ad59-8682-485a-b88d-ec92c7ed0e37</UserSecretsId>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile>bin\Debug\Application.xml</DocumentationFile>
+    </PropertyGroup>
+
     <ItemGroup>
         <PackageReference Include="FluentMigrator.Runner" Version="3.3.2" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />

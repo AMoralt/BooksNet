@@ -2,5 +2,5 @@
 
 public record GetAuthorResponse(
     int id,
-    string authorLastName,
-    string authorFirstName);
+    string LastName,
+    string FirstName);

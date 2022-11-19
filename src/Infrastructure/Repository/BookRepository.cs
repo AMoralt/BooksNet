@@ -117,17 +117,7 @@ public class BookRepository : IBookRepository
                 genre_id = @GenreId,
                 format_id = @FormatId
             WHERE
-                id = @BookId;
-            DELETE
-            FROM author_book 
-            WHERE 
-                book_id = @BookId";
-
-        const string sqlUpdateABook = @"
-            INSERT INTO author_book 
-                (author_id, book_id)
-            VALUES
-                (@AuthorId, @BookId)";
+                id = @BookId";
         
         var parameters = new
         {
@@ -145,12 +135,6 @@ public class BookRepository : IBookRepository
         
         await connection.ExecuteAsync(sqlUpdateBooks, param: parameters);
         
-        var author = itemToUpdate.Authors.Select(a => (int)a.Id );
-
-        foreach (var id in author)
-        {
-            await connection.ExecuteAsync(sqlUpdateABook, new {AuthorId = id, BookId = itemToUpdate.Id});
-        }
         _changeTracker.Track(itemToUpdate);
     }
     public async Task DeleteAsync(string ISBN, CancellationToken cancellationToken = default)

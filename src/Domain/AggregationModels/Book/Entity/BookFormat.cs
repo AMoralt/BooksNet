@@ -14,7 +14,7 @@ public class BookFormat : Entity
     {
         if(string.IsNullOrEmpty(name))
             throw new Exception("BookFormat name is required");
-        if(!name.All(char.IsLetter))
+        if(!string.Concat(name.Where(c=>!char.IsWhiteSpace(c))).All(char.IsLetter) )
             throw new Exception("BookFormat name must contain only letters");
         if(name.Length > 200) 
             throw new Exception("BookFormat name must be less than 200 characters");

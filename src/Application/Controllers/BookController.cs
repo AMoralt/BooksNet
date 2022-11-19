@@ -13,8 +13,15 @@ public class BookController
     {
         _mediator = mediator;
     }
-    
-    [HttpGet("GetAll")]
+    /// <summary>
+    /// Gets the list of all Books
+    /// </summary>
+    /// <returns>The list of Books</returns>
+    [HttpGet]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(400)]
+    [Produces("application/json")]
     public async Task<IResult> GetAll(CancellationToken token)
     {
         try
@@ -30,7 +37,15 @@ public class BookController
             return Results.BadRequest(e.Message);
         }
     }
+    /// <summary>
+    /// Gets Book by ISBN
+    /// </summary>
+    /// <param name="ISBN"></param>
     [HttpGet("{ISBN}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(404)]
+    [ProducesResponseType(400)]
+    [Produces("application/json")]
     public async Task<IResult> GetByISBN(string ISBN, CancellationToken token)
     {
         try
@@ -46,8 +61,14 @@ public class BookController
             return Results.BadRequest(e.Message);
         }
     } 
-    
+    /// <summary>
+    /// Deletes Book by ISBN
+    /// </summary>
+    /// <param name="ISBN"></param>
     [HttpDelete("{ISBN}")]
+    [ProducesResponseType(204)]
+    [ProducesResponseType(400)]
+    [Produces("application/json")]
     public async Task<IResult> DeleteByISBN(string ISBN, CancellationToken token)
     {
         try
@@ -61,7 +82,31 @@ public class BookController
             return Results.BadRequest(e.Message);
         }
     }
+    /// <summary>
+    /// Creates Book
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    /// 
+    ///     POST /Book
+    ///     {
+    ///         "title": "Book title",
+    ///         "genreId": 1,
+    ///         "formatId": 1,
+    ///         "authors": [
+    ///             1
+    ///         ],
+    ///         "publisherId": 1,
+    ///         "isbn": "2222222222",
+    ///         "publicationdate": "2020",
+    ///         "price": 200,
+    ///         "quantity": 20
+    ///    }
+    /// </remarks>
     [HttpPost]
+    [ProducesResponseType(201)]
+    [ProducesResponseType(400)]
+    [Produces("application/json")]
     public async Task<IResult> Create([FromBody] CreateBookCommand bookToCreate, CancellationToken token)
     {
         try
@@ -74,7 +119,31 @@ public class BookController
             return Results.BadRequest(e.Message);
         }
     }
+    /// <summary>
+    /// Updates Book
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    /// 
+    ///     PUT /Book
+    ///     {
+    ///         "title": "Book title",
+    ///         "genreId": 1,
+    ///         "formatId": 1,
+    ///         "authors": [
+    ///             1
+    ///         ],
+    ///         "publisherId": 1,
+    ///         "isbn": "2222222222",
+    ///         "publicationdate": "2020",
+    ///         "price": 200,
+    ///         "quantity": 20
+    ///    }
+    /// </remarks>
     [HttpPut]
+    [ProducesResponseType(202)]
+    [ProducesResponseType(400)]
+    [Produces("application/json")]
     public async Task<IResult> Update([FromBody] UpdateBookCommand bookToUpdate, CancellationToken token)
     {
         try

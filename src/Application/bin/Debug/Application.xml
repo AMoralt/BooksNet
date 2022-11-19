@@ -1,0 +1,256 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Application</name>
+    </assembly>
+    <members>
+        <member name="M:EmptyProjectASPNETCORE.AuthorController.GetAll(System.Threading.CancellationToken)">
+            <summary>
+            Gets the list of all Authors
+            </summary>
+            <returns>The list of Authors</returns>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.AuthorController.GetById(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets Author by Id
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.AuthorController.DeleteById(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Deletes Author by Id
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.AuthorController.Create(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Creates Author
+            </summary>
+            <param name="firstName"></param>
+            <param name="lastName"></param>
+            <remarks>
+            Sample request:
+            
+                POST /Author
+                {
+                  "firstName": "Mike",
+                  "lastName": "Andrew",       
+                }
+            </remarks>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.AuthorController.Update(EmptyProjectASPNETCORE.UpdateAuthorCommand,System.Threading.CancellationToken)">
+            <summary>
+            Updates Author
+            </summary>
+            <remarks>
+            Sample request:
+            
+                PUT /Author
+                {
+                  "id": "1"
+                  "firstName": "Mike",
+                  "lastName": "Andrew",       
+                }
+            </remarks>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.BookController.GetAll(System.Threading.CancellationToken)">
+            <summary>
+            Gets the list of all Books
+            </summary>
+            <returns>The list of Books</returns>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.BookController.GetByISBN(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets Book by ISBN
+            </summary>
+            <param name="ISBN"></param>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.BookController.DeleteByISBN(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Deletes Book by ISBN
+            </summary>
+            <param name="ISBN"></param>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.BookController.Create(EmptyProjectASPNETCORE.CreateBookCommand,System.Threading.CancellationToken)">
+            <summary>
+            Creates Book
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST /Book
+                {
+                    "title": "Book title",
+                    "genreId": 1,
+                    "formatId": 1,
+                    "authors": [
+                        1
+                    ],
+                    "publisherId": 1,
+                    "isbn": "2222222222",
+                    "publicationdate": "2020",
+                    "price": 200,
+                    "quantity": 20
+               }
+            </remarks>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.BookController.Update(EmptyProjectASPNETCORE.UpdateBookCommand,System.Threading.CancellationToken)">
+            <summary>
+            Updates Book
+            </summary>
+            <remarks>
+            Sample request:
+            
+                PUT /Book
+                {
+                    "title": "Book title",
+                    "genreId": 1,
+                    "formatId": 1,
+                    "authors": [
+                        1
+                    ],
+                    "publisherId": 1,
+                    "isbn": "2222222222",
+                    "publicationdate": "2020",
+                    "price": 200,
+                    "quantity": 20
+               }
+            </remarks>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.BookFormatController.GetAll(System.Threading.CancellationToken)">
+            <summary>
+            Gets the list of all Book Formats
+            </summary>
+            <returns>The list of Book Formats</returns>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.BookFormatController.GetById(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets Book Format by id
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.BookFormatController.DeleteById(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Deletes Book Format by id
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.BookFormatController.Create(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Creates Book Format
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST /BookFormat
+                {
+                    "name": "Book format description",
+                }
+            </remarks>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.BookFormatController.Update(System.Int32,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Updates Book Format
+            </summary>
+            <remarks>
+            Sample request:
+            
+                PUT /BookFormat/1
+                {
+                    "id": 1,
+                    "name": "Book format description"
+               }
+            </remarks>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.GenreController.GetAll(System.Threading.CancellationToken)">
+            <summary>
+            Gets the list of all Genres
+            </summary>
+            <returns>The list of Genres</returns>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.GenreController.GetById(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets Genre by id
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.GenreController.DeleteById(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Deletes Genre by id
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.GenreController.Create(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Creates Genre
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST /Genre
+                {
+                    "name": "Genre description",
+                }
+            </remarks>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.GenreController.Update(System.Int32,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Updates Genre
+            </summary>
+            <remarks>
+            Sample request:
+            
+                PUT /Genre/1
+                {
+                    "id": 1,
+                    "name": "Genre description"
+               }
+            </remarks>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.PublisherController.GetAll(System.Threading.CancellationToken)">
+            <summary>
+            Gets the list of all Publishers
+            </summary>
+            <returns>The list of Publishers</returns>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.PublisherController.GetById(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets Publisher by id
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.PublisherController.DeleteById(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Deletes Publisher by id
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.PublisherController.Create(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Creates Publisher
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST /Publisher
+                {
+                    "name": "Publisher name",
+                }
+            </remarks>
+        </member>
+        <member name="M:EmptyProjectASPNETCORE.PublisherController.Update(System.Int32,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Updates Publisher
+            </summary>
+            <remarks>
+            Sample request:
+            
+                PUT /Publisher/1
+                {
+                    "id": 1,
+                    "name": "Publisher name"
+               }
+            </remarks>
+        </member>
+    </members>
+</doc>
