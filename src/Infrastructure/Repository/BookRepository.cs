@@ -91,11 +91,6 @@ public class BookRepository : IBookRepository
                 );
             }, splitOn:"title,isbn,id,id,id,id");
         
-        if (!books.Any())
-        {
-            throw new System.Exception("No books found");
-        }
-        
         books = books.GroupBy(p => p.Id).Select(g =>
         {
             var groupedPost = g.First();
@@ -191,14 +186,14 @@ public class BookRepository : IBookRepository
                         new BookFormat(format.Id.Value, format.Name)
                     );
                 }, splitOn: "title,isbn,id,id,id,id", param: parameters);
-        
-        if (!books.Any())
+
+        var book = books.GroupBy(p => p.Id).Select(g =>
         {
-            throw new System.Exception($"Book with ISBN ({ISBN}) not found");
-        }
-        
-        var book = books.FirstOrDefault();
-        book.Authors = books.Select(p => p.Authors.Single()).ToList();
+            var groupBooks = g.First();
+            groupBooks.Authors = g.SelectMany(p => p.Authors).ToList();
+            return groupBooks;
+        }).FirstOrDefault();
+
         _changeTracker.Track(book);
         return book;
     }

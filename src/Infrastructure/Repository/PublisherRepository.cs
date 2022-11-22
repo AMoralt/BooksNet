@@ -46,11 +46,6 @@ public class PublisherRepository : IRepository<Publisher>
         
         var publishers =  await connection.QueryAsync<Publisher>(sql);
 
-        if (!publishers.Any())
-        {
-            throw new System.Exception("No publishers found");
-        }
-        
         return publishers;
     }
 
@@ -102,11 +97,6 @@ public class PublisherRepository : IRepository<Publisher>
         
         var publisher = await connection.QueryFirstOrDefaultAsync<Publisher>(sql, parameters);
         
-        if (publisher is null)
-        {
-            throw new System.Exception($"Publisher with id {id} not found");
-        }
-
         _changeTracker.Track(publisher);
         return publisher;
     }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yh/+Qq6Hc/pdNUHwgWEto8LQy2BucK6t83l+2Eo9cihOedwBMEy+VN0XoVFzJd0UwF3nDThlXY+gHG2x9BUsTw==",
+  "dgSpecHash": "ze9CHkdi4AWuwcFAsD6PRBpk3+lL1LYl0aPrRvbygWSAkjh3Wrx98i4h/bQBbjkdKR9nssbkeOwnKH9vqKavgg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\AMoralt\\RiderProjects\\Books\\tests\\Application.Tests\\Application.Tests.csproj",
+  "projectFilePath": "C:\\Users\\AMoralt\\RiderProjects\\BooksNet\\tests\\Application.Tests\\Application.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\AMoralt\\.nuget\\packages\\castle.core\\5.1.0\\castle.core.5.1.0.nupkg.sha512",
     "C:\\Users\\AMoralt\\.nuget\\packages\\coverlet.collector\\3.2.0\\coverlet.collector.3.2.0.nupkg.sha512",

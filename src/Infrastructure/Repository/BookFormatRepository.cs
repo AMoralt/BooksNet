@@ -44,11 +44,6 @@ public class BookFormatRepository : IRepository<BookFormat>
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
         
         var bookFormat =  await connection.QueryAsync<BookFormat>(sql);
-
-        if (!bookFormat.Any())
-        {
-            throw new System.Exception("No BookFormat found");
-        }
         
         return bookFormat;
     }
@@ -100,11 +95,6 @@ public class BookFormatRepository : IRepository<BookFormat>
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
         
         var bookFormat = await connection.QueryFirstOrDefaultAsync<BookFormat>(sql, parameters);
-        
-        if (bookFormat is null)
-        {
-            throw new System.Exception($"BookFormat with id {id} not found");
-        }
 
         _changeTracker.Track(bookFormat);
         return bookFormat;

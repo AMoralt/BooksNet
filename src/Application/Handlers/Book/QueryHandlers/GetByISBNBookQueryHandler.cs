@@ -16,6 +16,10 @@ public class GetByISBNBookQueryHandler : IRequestHandler<GetByISBNBookQuery, Get
     public async Task<GetBookResponse> Handle(GetByISBNBookQuery request, CancellationToken cancellationToken)
     {
         var books = await _bookRepository.GetByISBNAsync(request.ISBN,cancellationToken);
+
+        if (books is null)
+            throw new System.Exception($"No book found with ISBN: {request.ISBN}");
+        
         var result = new GetBookResponse(
             books.Title.Value,
             books.Details.ISBN,

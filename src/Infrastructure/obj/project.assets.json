@@ -620,11 +620,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Infrastructure\\Infrastructure.csproj",
+      "projectUniqueName": "C:\\Users\\AMoralt\\RiderProjects\\BooksNet\\src\\Infrastructure\\Infrastructure.csproj",
       "projectName": "Infrastructure",
-      "projectPath": "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Infrastructure\\Infrastructure.csproj",
+      "projectPath": "C:\\Users\\AMoralt\\RiderProjects\\BooksNet\\src\\Infrastructure\\Infrastructure.csproj",
       "packagesPath": "C:\\Users\\AMoralt\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Infrastructure\\obj\\",
+      "outputPath": "C:\\Users\\AMoralt\\RiderProjects\\BooksNet\\src\\Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\AMoralt\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -639,8 +639,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Domain\\Domain.csproj": {
-              "projectPath": "C:\\Users\\AMoralt\\RiderProjects\\Books\\src\\Domain\\Domain.csproj"
+            "C:\\Users\\AMoralt\\RiderProjects\\BooksNet\\src\\Domain\\Domain.csproj": {
+              "projectPath": "C:\\Users\\AMoralt\\RiderProjects\\BooksNet\\src\\Domain\\Domain.csproj"
             }
           }
         }

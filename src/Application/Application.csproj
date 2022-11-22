@@ -19,7 +19,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Contracts" />
       <Folder Include="Exception" />
       <Folder Include="Extensions" />
       <Folder Include="Handlers\Book" />
@@ -28,6 +27,22 @@
     <ItemGroup>
       <ProjectReference Include="..\Domain\Domain.csproj" />
       <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Contracts\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Contracts\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Contracts\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Contracts\**" />
     </ItemGroup>
 
 </Project>

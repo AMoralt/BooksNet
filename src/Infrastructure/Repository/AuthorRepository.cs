@@ -47,11 +47,6 @@ public class AuthorRepository : IRepository<Author>
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
         
         var authors =  await connection.QueryAsync<Author>(sql);
-
-        if (!authors.Any())
-        {
-            throw new System.Exception("No authors found");
-        }
         
         return authors;
     }
@@ -106,11 +101,6 @@ public class AuthorRepository : IRepository<Author>
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
         
         var author = await connection.QueryFirstOrDefaultAsync<Author>(sql, parameters);
-        
-        if (author is null)
-        {
-            throw new System.Exception($"Author with id {id} not found");
-        }
 
         _changeTracker.Track(author);
         return author;

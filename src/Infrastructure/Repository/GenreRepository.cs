@@ -44,14 +44,8 @@ public class GenreRepository : IRepository<Genre>
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
         
         var genres =  await connection.QueryAsync<Genre>(sql);
-
-        if (!genres.Any())
-        {
-            throw new System.Exception("No Genres found");
-        }
         
-        return genres;
-
+        return genres; 
     }
 
     public async Task UpdateAsync(Genre itemToUpdate, CancellationToken cancellationToken = default)
@@ -103,11 +97,6 @@ public class GenreRepository : IRepository<Genre>
         
         var genre = await connection.QueryFirstOrDefaultAsync<Genre>(sql, parameters);
         
-        if (genre is null)
-        {
-            throw new System.Exception($"Genre with id {id} not found");
-        }
-
         _changeTracker.Track(genre);
         return genre;
     }
