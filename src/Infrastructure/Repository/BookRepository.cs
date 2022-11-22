@@ -91,12 +91,13 @@ public class BookRepository : IBookRepository
                 );
             }, splitOn:"title,isbn,id,id,id,id");
         
-        books = books.GroupBy(p => p.Id).Select(g =>
+        books = books.GroupBy(p => p.Details.ISBN).Select(g =>
         {
-            var groupedPost = g.First();
-            groupedPost.Authors = g.Select(p => p.Authors.Single()).ToList();
-            return groupedPost;
-        });
+            var groupedBooks = g.First();
+            groupedBooks.Authors = g.Select(p => p.Authors.Single()).ToList();
+            return groupedBooks;
+        }).ToList();
+        
         return books;
     }
     public async Task UpdateAsync(Book itemToUpdate, CancellationToken cancellationToken = default)
@@ -112,7 +113,17 @@ public class BookRepository : IBookRepository
                 genre_id = @GenreId,
                 format_id = @FormatId
             WHERE
-                id = @BookId";
+                id = @BookId;
+            DELETE
+            FROM author_book 
+            WHERE 
+                book_id = @BookId";
+
+        const string sqlUpdateABook = @"
+            INSERT INTO author_book 
+                (author_id, book_id)
+            VALUES
+                (@AuthorId, @BookId)";
         
         var parameters = new
         {
@@ -130,14 +141,20 @@ public class BookRepository : IBookRepository
         
         await connection.ExecuteAsync(sqlUpdateBooks, param: parameters);
         
+        var author = itemToUpdate.Authors.Select(a => (int)a.Id );
+
+        foreach (var id in author)
+        {
+            await connection.ExecuteAsync(sqlUpdateABook, new {AuthorId = id, BookId = itemToUpdate.Id});
+        }
         _changeTracker.Track(itemToUpdate);
     }
     public async Task DeleteAsync(string ISBN, CancellationToken cancellationToken = default)
     {
        const string sql = @"
             DELETE
-            FROM books AS book
-            WHERE book.isbn = @ISBN";
+            FROM books
+            WHERE books.isbn = @ISBN";
         
         var parameters = new { ISBN = ISBN };
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);

@@ -10,4 +10,4 @@ public record GetBookResponse(
     string bookFormat,
     int price,
     int quantity);
-public record AuthorResponse(string last, string first);
+public record AuthorResponse(string lastName, string firstName);

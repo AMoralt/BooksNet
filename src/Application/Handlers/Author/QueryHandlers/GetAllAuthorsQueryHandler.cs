@@ -1,4 +1,5 @@
-﻿using Domain.AggregationModels.Book;
+﻿using Application.Exception;
+using Domain.AggregationModels.Book;
 using MediatR;
 using TemplateASP.NET.CORE.Query;
 
@@ -16,6 +17,8 @@ public class GetAllAuthorsQueryHandler : IRequestHandler<GetAllAuthorsQuery, IEn
     public async Task<IEnumerable<GetAuthorResponse>> Handle(GetAllAuthorsQuery request, CancellationToken cancellationToken)
     {
         var authors= await _authorRepository.GetAllAsync(cancellationToken);
+        if (!authors.Any())
+            throw new NotFoundException($"There is no Authors in repository");
         var result = authors.Select(a => new GetAuthorResponse(a.Id.Value, a.LastName, a.FirstName));
         return result;
     }

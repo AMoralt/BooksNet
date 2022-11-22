@@ -1,4 +1,5 @@
-﻿using Domain.AggregationModels.Book;
+﻿using Application.Exception;
+using Domain.AggregationModels.Book;
 using MediatR;
 using TemplateASP.NET.CORE.Query;
 
@@ -16,6 +17,8 @@ public class GetByIdAuthorQueryHandler : IRequestHandler<GetByIdAuthorQuery, Get
     public async Task<GetAuthorResponse> Handle(GetByIdAuthorQuery request, CancellationToken cancellationToken)
     {
         var author = await _authorRepository.GetByIdAsync(request.id,cancellationToken);
+        if (author is null)
+            throw new NotFoundException($"There is no author with id: {request.id}");
         var result = new GetAuthorResponse(author.Id.Value, author.LastName, author.FirstName);
         return result;
     }

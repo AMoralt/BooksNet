@@ -1,4 +1,5 @@
-﻿using Domain.AggregationModels.Book;
+﻿using Application.Exception;
+using Domain.AggregationModels.Book;
 using MediatR;
 using TemplateASP.NET.CORE.Query;
 
@@ -16,6 +17,8 @@ public class GetAllPublishersQueryHandler : IRequestHandler<GetAllPublishersQuer
     public async Task<IEnumerable<GetPublisherResponse>> Handle(GetAllPublishersQuery request, CancellationToken cancellationToken)
     {
         var publishers= await _publisherRepository.GetAllAsync(cancellationToken);
+        if (!publishers.Any())
+            throw new NotFoundException($"There is no Publishers in repository");
         var result = publishers.Select(p => new GetPublisherResponse(p.Id.Value, p.Name));
         return result;
     }

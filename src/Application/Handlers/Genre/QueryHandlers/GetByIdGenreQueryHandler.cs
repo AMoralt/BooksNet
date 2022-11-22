@@ -1,4 +1,5 @@
-﻿using Domain.AggregationModels.Book;
+﻿using Application.Exception;
+using Domain.AggregationModels.Book;
 using MediatR;
 using TemplateASP.NET.CORE.Query;
 
@@ -15,7 +16,9 @@ public class GetByIdGenreQueryHandler : IRequestHandler<GetByIdGenreQuery, GetGe
 
     public async Task<GetGenreResponse> Handle(GetByIdGenreQuery request, CancellationToken cancellationToken)
     {
-        var genre= await _genreRepository.GetByIdAsync(request.id,cancellationToken);
+        var genre = await _genreRepository.GetByIdAsync(request.id,cancellationToken);
+        if (genre is null)
+            throw new NotFoundException($"There is no Genre with id: {request.id}");
         var result = new GetGenreResponse(genre.Id.Value, genre.Name);
         return result;
     }

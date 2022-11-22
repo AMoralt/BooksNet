@@ -1,4 +1,5 @@
-﻿using Domain.AggregationModels.Book;
+﻿using Application.Exception;
+using Domain.AggregationModels.Book;
 using MediatR;
 using TemplateASP.NET.CORE.Query;
 
@@ -18,7 +19,7 @@ public class GetByISBNBookQueryHandler : IRequestHandler<GetByISBNBookQuery, Get
         var books = await _bookRepository.GetByISBNAsync(request.ISBN,cancellationToken);
 
         if (books is null)
-            throw new System.Exception($"No book found with ISBN: {request.ISBN}");
+            throw new NotFoundException($"No book found with ISBN: {request.ISBN}");
         
         var result = new GetBookResponse(
             books.Title.Value,

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Exception;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TemplateASP.NET.CORE.Query;
 
@@ -19,8 +20,6 @@ public class GenreController
     /// <returns>The list of Genres</returns>
     [HttpGet]
     [ProducesResponseType(200)]
-    [ProducesResponseType(404)]
-    [ProducesResponseType(400)]
     [Produces("application/json")]
     public async Task<IResult> GetAll(CancellationToken token)
     {
@@ -28,9 +27,11 @@ public class GenreController
         {
             var getAll = new GetAllGenresQuery();
             var result = await _mediator.Send(getAll, token);
-            if (result is null)
-                return Results.NotFound();
             return Results.Ok(result);
+        }
+        catch (NotFoundException e)
+        {
+            return Results.NotFound(e.Message);
         }
         catch (System.Exception e)
         {
@@ -43,8 +44,6 @@ public class GenreController
     /// <param name="id"></param>
     [HttpGet("{id:int}")]
     [ProducesResponseType(200)]
-    [ProducesResponseType(404)]
-    [ProducesResponseType(400)]
     [Produces("application/json")]
     public async Task<IResult> GetById(int id, CancellationToken token)
     {
@@ -52,9 +51,11 @@ public class GenreController
         {
             var getById = new GetByIdGenreQuery(id);
             var result = await _mediator.Send(getById, token);
-            if (result is null)
-                return Results.NotFound();
             return Results.Ok(result);
+        }
+        catch (NotFoundException e)
+        {
+            return Results.NotFound(e.Message);
         }
         catch (System.Exception e)
         {
@@ -67,7 +68,6 @@ public class GenreController
     /// <param name="id"></param>
     [HttpDelete("{id:int}")]
     [ProducesResponseType(204)]
-    [ProducesResponseType(400)]
     [Produces("application/json")]
     public async Task<IResult> DeleteById(int id, CancellationToken token)
     {
@@ -95,7 +95,6 @@ public class GenreController
     /// </remarks>
     [HttpPost("{name}")]
     [ProducesResponseType(201)]
-    [ProducesResponseType(400)]
     [Produces("application/json")]
     public async Task<IResult> Create(string name, CancellationToken token)
     {
@@ -125,7 +124,6 @@ public class GenreController
     /// </remarks>
     [HttpPut("{id:int}/{name}")]
     [ProducesResponseType(202)]
-    [ProducesResponseType(400)]
     [Produces("application/json")]
     public async Task<IResult> Update(int id, string name, CancellationToken token)
     {

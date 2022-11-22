@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Exception;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TemplateASP.NET.CORE.Query;
 
@@ -19,8 +20,6 @@ public class BookController
     /// <returns>The list of Books</returns>
     [HttpGet]
     [ProducesResponseType(200)]
-    [ProducesResponseType(404)]
-    [ProducesResponseType(400)]
     [Produces("application/json")]
     public async Task<IResult> GetAll(CancellationToken token)
     {
@@ -28,9 +27,11 @@ public class BookController
         {
             var getAll = new GetAllBooksQuery();
             var result = await _mediator.Send(getAll, token);
-            if (result is null)
-                return Results.NotFound();
             return Results.Ok(result);
+        }
+        catch (NotFoundException e)
+        {
+            return Results.NotFound(e.Message);
         }
         catch (System.Exception e)
         {
@@ -43,8 +44,6 @@ public class BookController
     /// <param name="ISBN"></param>
     [HttpGet("{ISBN}")]
     [ProducesResponseType(200)]
-    [ProducesResponseType(404)]
-    [ProducesResponseType(400)]
     [Produces("application/json")]
     public async Task<IResult> GetByISBN(string ISBN, CancellationToken token)
     {
@@ -52,9 +51,11 @@ public class BookController
         {
             var getByISBN = new GetByISBNBookQuery(ISBN);
             var result = await _mediator.Send(getByISBN, token);
-            if (result is null)
-                return Results.NotFound();
             return Results.Ok(result);
+        }
+        catch (NotFoundException e)
+        {
+            return Results.NotFound(e.Message);
         }
         catch (System.Exception e)
         {
@@ -67,7 +68,6 @@ public class BookController
     /// <param name="ISBN"></param>
     [HttpDelete("{ISBN}")]
     [ProducesResponseType(204)]
-    [ProducesResponseType(400)]
     [Produces("application/json")]
     public async Task<IResult> DeleteByISBN(string ISBN, CancellationToken token)
     {
@@ -105,7 +105,6 @@ public class BookController
     /// </remarks>
     [HttpPost]
     [ProducesResponseType(201)]
-    [ProducesResponseType(400)]
     [Produces("application/json")]
     public async Task<IResult> Create([FromBody] CreateBookCommand bookToCreate, CancellationToken token)
     {
@@ -142,7 +141,6 @@ public class BookController
     /// </remarks>
     [HttpPut]
     [ProducesResponseType(202)]
-    [ProducesResponseType(400)]
     [Produces("application/json")]
     public async Task<IResult> Update([FromBody] UpdateBookCommand bookToUpdate, CancellationToken token)
     {
