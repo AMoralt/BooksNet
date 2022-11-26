@@ -1,7 +1,8 @@
 ﻿using Application.Exception;
 using MediatR;
+using Infrastructure.Contracts;
 
-namespace EmptyProjectASPNETCORE;
+namespace Application.Query;
 
 public class GetByISBNBookQueryHandler : IRequestHandler<GetByISBNBookQuery, GetBookResponse>
 {

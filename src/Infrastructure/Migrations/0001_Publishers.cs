@@ -1,6 +1,6 @@
 ﻿using FluentMigrator;
 
-namespace EmptyProjectASPNETCORE.Migrations;
+namespace Infrastructure.Migrations;
 
 [Migration(1)]
 public class PublisherTable: Migration

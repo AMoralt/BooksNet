@@ -1,9 +1,10 @@
 ﻿using System.Data;
-using EmptyProjectASPNETCORE.Exception;
+using Infrastructure.Contracts;
+using Infrastructure.Exception;
 using MediatR;
 using Npgsql;
 
-namespace EmptyProjectASPNETCORE;
+namespace Infrastructure.Root;
 
 public class UnitOfWork : IUnitOfWork, IDisposable
     {

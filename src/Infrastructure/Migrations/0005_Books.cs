@@ -1,6 +1,6 @@
 ﻿using FluentMigrator;
 
-namespace EmptyProjectASPNETCORE.Migrations;
+namespace Infrastructure.Migrations;
 
 [Migration(5)]
 public class BookTable: Migration

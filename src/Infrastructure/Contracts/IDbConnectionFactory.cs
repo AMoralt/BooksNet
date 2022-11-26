@@ -1,4 +1,5 @@
-﻿namespace EmptyProjectASPNETCORE;
+﻿
+namespace Infrastructure.Contracts;
 
 public interface IDbConnectionFactory<TConnection> : IDisposable
 {

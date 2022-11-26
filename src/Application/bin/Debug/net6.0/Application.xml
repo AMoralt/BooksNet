@@ -4,25 +4,25 @@
         <name>Application</name>
     </assembly>
     <members>
-        <member name="M:EmptyProjectASPNETCORE.AuthorController.GetAll(System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.AuthorController.GetAll(System.Threading.CancellationToken)">
             <summary>
             Gets the list of all Authors
             </summary>
             <returns>The list of Authors</returns>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.AuthorController.GetById(System.Int32,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.AuthorController.GetById(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Gets Author by Id
             </summary>
             <param name="id"></param>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.AuthorController.DeleteById(System.Int32,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.AuthorController.DeleteById(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Deletes Author by Id
             </summary>
             <param name="id"></param>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.AuthorController.Create(System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.AuthorController.Create(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Creates Author
             </summary>
@@ -38,7 +38,7 @@
                 }
             </remarks>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.AuthorController.Update(EmptyProjectASPNETCORE.UpdateAuthorCommand,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.AuthorController.Update(Application.Commands.UpdateAuthorCommand,System.Threading.CancellationToken)">
             <summary>
             Updates Author
             </summary>
@@ -53,25 +53,25 @@
                 }
             </remarks>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.BookController.GetAll(System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.BookController.GetAll(System.Threading.CancellationToken)">
             <summary>
             Gets the list of all Books
             </summary>
             <returns>The list of Books</returns>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.BookController.GetByISBN(System.String,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.BookController.GetByISBN(System.String,System.Threading.CancellationToken)">
             <summary>
             Gets Book by ISBN
             </summary>
             <param name="ISBN"></param>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.BookController.DeleteByISBN(System.String,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.BookController.DeleteByISBN(System.String,System.Threading.CancellationToken)">
             <summary>
             Deletes Book by ISBN
             </summary>
             <param name="ISBN"></param>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.BookController.Create(EmptyProjectASPNETCORE.CreateBookCommand,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.BookController.Create(Application.Commands.CreateBookCommand,System.Threading.CancellationToken)">
             <summary>
             Creates Book
             </summary>
@@ -94,7 +94,7 @@
                }
             </remarks>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.BookController.Update(EmptyProjectASPNETCORE.UpdateBookCommand,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.BookController.Update(Application.Commands.UpdateBookCommand,System.Threading.CancellationToken)">
             <summary>
             Updates Book
             </summary>
@@ -117,25 +117,25 @@
                }
             </remarks>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.BookFormatController.GetAll(System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.BookFormatController.GetAll(System.Threading.CancellationToken)">
             <summary>
             Gets the list of all Book Formats
             </summary>
             <returns>The list of Book Formats</returns>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.BookFormatController.GetById(System.Int32,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.BookFormatController.GetById(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Gets Book Format by id
             </summary>
             <param name="id"></param>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.BookFormatController.DeleteById(System.Int32,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.BookFormatController.DeleteById(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Deletes Book Format by id
             </summary>
             <param name="id"></param>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.BookFormatController.Create(System.String,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.BookFormatController.Create(System.String,System.Threading.CancellationToken)">
             <summary>
             Creates Book Format
             </summary>
@@ -148,7 +148,7 @@
                 }
             </remarks>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.BookFormatController.Update(System.Int32,System.String,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.BookFormatController.Update(System.Int32,System.String,System.Threading.CancellationToken)">
             <summary>
             Updates Book Format
             </summary>
@@ -162,25 +162,25 @@
                }
             </remarks>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.GenreController.GetAll(System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.GenreController.GetAll(System.Threading.CancellationToken)">
             <summary>
             Gets the list of all Genres
             </summary>
             <returns>The list of Genres</returns>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.GenreController.GetById(System.Int32,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.GenreController.GetById(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Gets Genre by id
             </summary>
             <param name="id"></param>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.GenreController.DeleteById(System.Int32,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.GenreController.DeleteById(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Deletes Genre by id
             </summary>
             <param name="id"></param>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.GenreController.Create(System.String,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.GenreController.Create(System.String,System.Threading.CancellationToken)">
             <summary>
             Creates Genre
             </summary>
@@ -193,7 +193,7 @@
                 }
             </remarks>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.GenreController.Update(System.Int32,System.String,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.GenreController.Update(System.Int32,System.String,System.Threading.CancellationToken)">
             <summary>
             Updates Genre
             </summary>
@@ -207,25 +207,25 @@
                }
             </remarks>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.PublisherController.GetAll(System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.PublisherController.GetAll(System.Threading.CancellationToken)">
             <summary>
             Gets the list of all Publishers
             </summary>
             <returns>The list of Publishers</returns>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.PublisherController.GetById(System.Int32,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.PublisherController.GetById(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Gets Publisher by id
             </summary>
             <param name="id"></param>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.PublisherController.DeleteById(System.Int32,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.PublisherController.DeleteById(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Deletes Publisher by id
             </summary>
             <param name="id"></param>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.PublisherController.Create(System.String,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.PublisherController.Create(System.String,System.Threading.CancellationToken)">
             <summary>
             Creates Publisher
             </summary>
@@ -238,7 +238,7 @@
                 }
             </remarks>
         </member>
-        <member name="M:EmptyProjectASPNETCORE.PublisherController.Update(System.Int32,System.String,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.PublisherController.Update(System.Int32,System.String,System.Threading.CancellationToken)">
             <summary>
             Updates Publisher
             </summary>

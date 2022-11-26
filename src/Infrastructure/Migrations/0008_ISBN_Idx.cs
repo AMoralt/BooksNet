@@ -1,6 +1,6 @@
 ﻿using FluentMigrator;
 
-namespace EmptyProjectASPNETCORE.Migrations;
+namespace Infrastructure.Migrations;
 
 [Migration(8)]
 public class ISBN_Idx : ForwardOnlyMigration

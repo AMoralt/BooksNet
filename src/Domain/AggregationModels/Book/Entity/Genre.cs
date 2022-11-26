@@ -1,4 +1,4 @@
-﻿using EmptyProjectASPNETCORE;
+﻿using Domain.Root;
 
 namespace Domain.AggregationModels.Book;
 

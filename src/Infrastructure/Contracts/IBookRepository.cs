@@ -1,6 +1,6 @@
 ﻿using Domain.AggregationModels.Book;
 
-namespace EmptyProjectASPNETCORE;
+namespace Infrastructure.Contracts;
 
 public interface IBookRepository
 {

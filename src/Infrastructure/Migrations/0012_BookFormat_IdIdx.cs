@@ -1,6 +1,6 @@
 ﻿using FluentMigrator;
 
-namespace EmptyProjectASPNETCORE.Migrations;
+namespace Infrastructure.Migrations;
 
 [Migration(12)]
 public class BookFormat_IdIdx : ForwardOnlyMigration

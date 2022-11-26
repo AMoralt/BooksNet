@@ -1,5 +1,6 @@
-﻿
-namespace EmptyProjectASPNETCORE;
+﻿using Domain.Root;
+
+namespace Infrastructure.Contracts;
 
 public interface IRepository<T> where T : Entity
 {

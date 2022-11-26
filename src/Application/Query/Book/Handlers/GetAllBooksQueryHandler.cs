@@ -1,7 +1,8 @@
 ﻿using Application.Exception;
+using Infrastructure.Contracts;
 using MediatR;
 
-namespace EmptyProjectASPNETCORE;
+namespace Application.Query;
 
 public class GetAllBooksQueryHandler : IRequestHandler<GetAllBooksQuery, IEnumerable<GetBookResponse>>
 {

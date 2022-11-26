@@ -1,7 +1,8 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Infrastructure.Contracts;
+using Microsoft.Extensions.Options;
 using Npgsql;
 
-namespace EmptyProjectASPNETCORE;
+namespace Infrastructure.Root;
 
 public class NpgsqlConnectionFactory : IDbConnectionFactory<NpgsqlConnection>
 {

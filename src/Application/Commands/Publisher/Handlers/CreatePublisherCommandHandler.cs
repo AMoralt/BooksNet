@@ -1,7 +1,8 @@
 ﻿using Domain.AggregationModels.Book;
 using MediatR;
+using Infrastructure.Contracts;
 
-namespace EmptyProjectASPNETCORE;
+namespace Application.Commands;
 
 public class CreatePublisherCommandHandler : IRequestHandler<CreatePublisherCommand>
 {

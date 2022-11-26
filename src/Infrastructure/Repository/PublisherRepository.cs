@@ -1,8 +1,9 @@
-﻿using Dapper;
+﻿using Infrastructure.Contracts;
+using Dapper;
 using Domain.AggregationModels.Book;
 using Npgsql;
 
-namespace EmptyProjectASPNETCORE;
+namespace Infrastructure.Repository;
 
 public class PublisherRepository : IRepository<Publisher>
 {

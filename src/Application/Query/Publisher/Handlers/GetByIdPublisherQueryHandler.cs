@@ -1,8 +1,9 @@
 ﻿using Application.Exception;
 using Domain.AggregationModels.Book;
+using Infrastructure.Contracts;
 using MediatR;
 
-namespace EmptyProjectASPNETCORE;
+namespace Application.Query;
 
 public class GetByIdPublisherQueryHandler : IRequestHandler<GetByIdPublisherQuery, GetPublisherResponse>
 {

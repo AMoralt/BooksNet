@@ -1,8 +1,9 @@
 ﻿using System.Globalization;
 using Domain.AggregationModels.Book;
+using Infrastructure.Contracts;
 using MediatR;
 
-namespace EmptyProjectASPNETCORE;
+namespace Application.Commands;
 
 public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand>
 {

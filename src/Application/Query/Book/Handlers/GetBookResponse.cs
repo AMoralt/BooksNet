@@ -1,4 +1,5 @@
-﻿namespace EmptyProjectASPNETCORE;
+﻿
+namespace Application.Query;
 
 public record GetBookResponse(
     string title,

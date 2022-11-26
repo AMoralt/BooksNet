@@ -1,6 +1,7 @@
 ﻿using MediatR;
+using Infrastructure.Contracts;
 
-namespace EmptyProjectASPNETCORE;
+namespace Application.Commands;
 
 public class DeleteBookCommandHandler : IRequestHandler<DeleteBookCommand>
 {

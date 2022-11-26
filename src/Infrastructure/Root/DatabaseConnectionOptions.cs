@@ -1,4 +1,4 @@
-﻿namespace EmptyProjectASPNETCORE;
+﻿namespace Infrastructure.Root;
 
 public class DatabaseConnectionOptions
 {

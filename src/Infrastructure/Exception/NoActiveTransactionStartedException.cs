@@ -1,4 +1,5 @@
-﻿namespace EmptyProjectASPNETCORE.Exception;
+﻿
+namespace Infrastructure.Exception;
 
 public class NoActiveTransactionStartedException : System.Exception
 {

@@ -1,8 +1,9 @@
 ﻿using System.Globalization;
+using Infrastructure.Contracts;
 using Domain.AggregationModels.Book;
 using MediatR;
 
-namespace EmptyProjectASPNETCORE;
+namespace Application.Commands;
 
 public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand>
 {

@@ -1,8 +1,9 @@
 ﻿using Dapper;
 using Domain.AggregationModels.Book;
+using Infrastructure.Contracts;
 using Npgsql;
 
-namespace EmptyProjectASPNETCORE;
+namespace Infrastructure.Repository;
 
 public class AuthorRepository : IRepository<Author>
 {

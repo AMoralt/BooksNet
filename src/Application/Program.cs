@@ -1,8 +1,10 @@
 using System.Reflection;
 using Domain.AggregationModels.Book;
-using EmptyProjectASPNETCORE;
-using EmptyProjectASPNETCORE.Migrations;
 using FluentMigrator.Runner;
+using Infrastructure.Contracts;
+using Infrastructure.Migrations;
+using Infrastructure.Repository;
+using Infrastructure.Root;
 using MediatR;
 using Microsoft.OpenApi.Models;
 using Npgsql;

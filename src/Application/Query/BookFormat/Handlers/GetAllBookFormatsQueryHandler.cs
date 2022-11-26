@@ -1,8 +1,9 @@
 ﻿using Application.Exception;
+using Infrastructure.Contracts;
 using Domain.AggregationModels.Book;
 using MediatR;
 
-namespace EmptyProjectASPNETCORE;
+namespace Application.Query;
 
 public class GetAllBookFormatsQueryHandler : IRequestHandler<GetAllBookFormatsQuery, IEnumerable<GetBookFormatResponse>>
 {

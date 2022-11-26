@@ -1,8 +1,10 @@
-﻿using Application.Exception;
+﻿using Application.Commands;
+using Application.Exception;
+using Application.Query;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EmptyProjectASPNETCORE;
+namespace Application.Controllers;
 
 [Route("[controller]")]
 [ApiController]

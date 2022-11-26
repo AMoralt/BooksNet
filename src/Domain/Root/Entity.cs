@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace EmptyProjectASPNETCORE;
+namespace Domain.Root;
 
 public abstract class Entity
 {

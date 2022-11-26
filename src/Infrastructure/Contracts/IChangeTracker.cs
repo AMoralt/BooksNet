@@ -1,4 +1,6 @@
-﻿namespace EmptyProjectASPNETCORE;
+﻿using Domain.Root;
+
+namespace Infrastructure.Contracts;
 
 public interface IChangeTracker
 {

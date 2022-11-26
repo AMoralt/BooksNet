@@ -1,6 +1,8 @@
 ﻿using System.Collections.Concurrent;
+using Domain.Root;
+using Infrastructure.Contracts;
 
-namespace EmptyProjectASPNETCORE;
+namespace Infrastructure.Root;
 
 public class ChangeTracker : IChangeTracker
 {

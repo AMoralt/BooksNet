@@ -1,7 +1,7 @@
 ﻿using Domain.DomainEvents;
 using MediatR;
 
-namespace EmptyProjectASPNETCORE;
+namespace Application.Events;
 
 public class MinNumberOfBooksDomainEventHandler : INotificationHandler<MinNumberOfBooksDomainEvent>
 {
