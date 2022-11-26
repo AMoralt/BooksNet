@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Dapper;
+﻿using Dapper;
 using Domain.AggregationModels.Book;
 using Npgsql;
 

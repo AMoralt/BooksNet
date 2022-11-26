@@ -1,6 +1,4 @@
 ﻿
-using Domain.AggregationModels.Book;
-
 namespace EmptyProjectASPNETCORE;
 
 public interface IRepository<T> where T : Entity

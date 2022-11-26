@@ -19,8 +19,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Events" />
       <Folder Include="Extensions" />
-      <Folder Include="Handlers\Book" />
+      <Folder Include="Query\Book" />
     </ItemGroup>
 
     <ItemGroup>

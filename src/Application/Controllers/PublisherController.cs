@@ -1,7 +1,6 @@
 ﻿using Application.Exception;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TemplateASP.NET.CORE.Query;
 
 namespace EmptyProjectASPNETCORE;
 
