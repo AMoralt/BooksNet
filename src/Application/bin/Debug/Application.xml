@@ -67,13 +67,19 @@
         </member>
         <member name="M:Application.Controllers.BookController.GetByGenreId(System.Int32,System.Threading.CancellationToken)">
             <summary>
-            Gets Book by Genre's Id
+            Gets Books by Genre's Id
             </summary>
             <param name="id"></param>
         </member>
+        <member name="M:Application.Controllers.BookController.GetByTitle(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets Books by title
+            </summary>
+            <param name="title"></param>
+        </member>
         <member name="M:Application.Controllers.BookController.GetByAuthorId(System.Int32,System.Threading.CancellationToken)">
             <summary>
-            Gets Book by Author's Id
+            Gets Books by Author's Id
             </summary>
             <param name="id"></param>
         </member>

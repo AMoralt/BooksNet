@@ -65,7 +65,7 @@ public class BookController
     }
     
     /// <summary>
-    /// Gets Book by Genre's Id
+    /// Gets Books by Genre's Id
     /// </summary>
     /// <param name="id"></param>
     [HttpGet("genre/{id:int}")]
@@ -90,7 +90,32 @@ public class BookController
     } 
     
     /// <summary>
-    /// Gets Book by Author's Id
+    /// Gets Books by title
+    /// </summary>
+    /// <param name="title"></param>
+    [HttpGet("title/{title}")]
+    [ProducesResponseType(200)]
+    [Produces("application/json")]
+    public async Task<IResult> GetByTitle(string title, CancellationToken token)
+    {
+        try
+        {
+            var getByTitle = new GetByTitleBooksQuery(title);
+            var result = await _mediator.Send(getByTitle, token);
+            return Results.Ok(result);
+        }
+        catch (NotFoundException e)
+        {
+            return Results.NotFound(e.Message);
+        }
+        catch (System.Exception e)
+        {
+            return Results.BadRequest(e.Message);
+        }
+    } 
+    
+    /// <summary>
+    /// Gets Books by Author's Id
     /// </summary>
     /// <param name="id"></param>
     [HttpGet("author/{id:int}")]

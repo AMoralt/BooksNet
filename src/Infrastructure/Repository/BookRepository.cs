@@ -202,6 +202,58 @@ public class BookRepository : IBookRepository
         return books;
     }
 
+    public async Task<IEnumerable<Book>> GetByTitleBooksAsync(string title, CancellationToken cancellationToken = default)
+    {
+        const string sql = @"
+            SELECT 
+                book.id,
+                book.title, 
+                book.isbn, book.quantity, book.price, book.publicationdate,
+                publisher.id, publisher.name,
+                genre.id, genre.name,
+                author.id, author.firstname,author.lastname,
+                bformat.id, bformat.name
+            FROM (SELECT
+                      id, title, isbn, quantity, price, publicationdate,
+                      publisher_id, genre_id, format_id
+                  FROM books
+                  WHERE title % @Title OR ts @@ to_tsquery('russian', @Title)) 
+                AS book
+            JOIN publishers AS publisher ON book.publisher_id = publisher.id
+            JOIN genres AS genre ON book.genre_id = genre.id
+            JOIN author_book AS abook ON abook.book_id = book.id
+            JOIN authors AS author ON author.id = abook.author_id
+            JOIN book_formats AS bformat ON bformat.id = book.format_id
+            ";//TODO check this query, on the first start don't work at all, on others works fine.
+        
+        var parameters = new { Title = title};
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+
+        var books = await connection.QueryAsync<Book, Title, BookDetails, Publisher, Genre, Author,BookFormat, Book>(sql,
+            (book, title, bookdetails, publisher, genre, author, format) =>
+            {
+                return new Book(
+                    book.Id,
+                    new BookDetails(bookdetails.Quantity, bookdetails.Price, bookdetails.PublicationDate,
+                        bookdetails.ISBN),
+                    new Title(title.Value),
+                    new Genre(genre.Id.Value, genre.Name),
+                    new List<Author>{ new Author(author.Id.Value, author.FirstName, author.LastName)},
+                    new Publisher(publisher.Id.Value, publisher.Name),
+                    new BookFormat(format.Id.Value, format.Name)
+                );
+            }, splitOn:"title,isbn,id,id,id,id", param: parameters);
+        
+        books = books.GroupBy(p => p.Details.ISBN).Select(g =>
+        {
+            var groupedBooks = g.First();
+            groupedBooks.Authors = g.Select(p => p.Authors.Single()).ToList();
+            return groupedBooks;
+        }).ToList();
+        
+        return books;
+    }
+
     public async Task UpdateAsync(Book itemToUpdate, CancellationToken cancellationToken = default)
     {
         const string sqlUpdateBooks = @"
