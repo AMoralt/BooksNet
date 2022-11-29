@@ -62,7 +62,58 @@ public class BookController
         {
             return Results.BadRequest(e.Message);
         }
+    }
+    
+    /// <summary>
+    /// Gets Book by Genre's Id
+    /// </summary>
+    /// <param name="id"></param>
+    [HttpGet("genre/{id:int}")]
+    [ProducesResponseType(200)]
+    [Produces("application/json")]
+    public async Task<IResult> GetByGenreId(int id, CancellationToken token)
+    {
+        try
+        {
+            var getByGenreId = new GetByGenreIdBooksQuery(id);
+            var result = await _mediator.Send(getByGenreId, token);
+            return Results.Ok(result);
+        }
+        catch (NotFoundException e)
+        {
+            return Results.NotFound(e.Message);
+        }
+        catch (System.Exception e)
+        {
+            return Results.BadRequest(e.Message);
+        }
     } 
+    
+    /// <summary>
+    /// Gets Book by Author's Id
+    /// </summary>
+    /// <param name="id"></param>
+    [HttpGet("author/{id:int}")]
+    [ProducesResponseType(200)]
+    [Produces("application/json")]
+    public async Task<IResult> GetByAuthorId(int id, CancellationToken token)
+    {
+        try
+        {
+            var getByAuthorId = new GetByAuthorIdBooksQuery(id);
+            var result = await _mediator.Send(getByAuthorId, token);
+            return Results.Ok(result);
+        }
+        catch (NotFoundException e)
+        {
+            return Results.NotFound(e.Message);
+        }
+        catch (System.Exception e)
+        {
+            return Results.BadRequest(e.Message);
+        }
+    } 
+    
     /// <summary>
     /// Deletes Book by ISBN
     /// </summary>

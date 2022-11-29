@@ -64,7 +64,7 @@ public class AuthorController
         {
             return Results.BadRequest(e.Message);
         }
-    } 
+    }
     
     /// <summary>
     /// Deletes Author by Id
