@@ -14,7 +14,7 @@ public class GetAllBooksQueryHandler : IRequestHandler<GetAllBooksQuery, IEnumer
 
     public async Task<IEnumerable<GetBookResponse>> Handle(GetAllBooksQuery request, CancellationToken cancellationToken)
     {
-        var books= await _bookRepository.GetAllAsync(cancellationToken);
+        var books= await _bookRepository.GetAllAsync(request.limit, request.offset, cancellationToken);
         
         if (!books.Any())
             throw new NotFoundException($"There is no Books in repository");
@@ -34,4 +34,4 @@ public class GetAllBooksQueryHandler : IRequestHandler<GetAllBooksQuery, IEnumer
     }
 }
 
-public record GetAllBooksQuery() : IRequest<IEnumerable<GetBookResponse>>;
+public record GetAllBooksQuery(int limit, int offset) : IRequest<IEnumerable<GetBookResponse>>;

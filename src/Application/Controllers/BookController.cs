@@ -22,11 +22,11 @@ public class BookController
     [HttpGet]
     [ProducesResponseType(200)]
     [Produces("application/json")]
-    public async Task<IResult> GetAll(CancellationToken token)
+    public async Task<IResult> GetAll(int limit, int offset, CancellationToken token)
     {
         try
         {
-            var getAll = new GetAllBooksQuery();
+            var getAll = new GetAllBooksQuery(limit, offset);
             var result = await _mediator.Send(getAll, token);
             return Results.Ok(result);
         }
@@ -224,6 +224,27 @@ public class BookController
         try
         {
             await _mediator.Send(bookToUpdate, token);
+            return Results.StatusCode(202);
+        }
+        catch (System.Exception e)
+        {
+            return Results.BadRequest(e.Message);
+        }
+    }
+    /// /// <summary>
+    /// Change Quantity of books
+    /// </summary>
+    /// <param name="ISBN"></param>
+    /// <param name="Quantity"></param>
+    [HttpPut("{ISBN}")]
+    [ProducesResponseType(202)]
+    [Produces("application/json")]
+    public async Task<IResult> DecreaseQuantity(string ISBN, int Quantity, CancellationToken token)
+    {
+        try
+        {
+            var DecreaseQuantity = new DecreaseQuantityBookCommand(ISBN, Quantity);
+            await _mediator.Send(DecreaseQuantity, token);
             return Results.StatusCode(202);
         }
         catch (System.Exception e)

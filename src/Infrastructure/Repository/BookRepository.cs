@@ -56,7 +56,7 @@ public class BookRepository : IBookRepository
         }
         _changeTracker.Track(itemToCreate);
     }
-    public async Task<IEnumerable<Book>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Book>> GetAllAsync(int limit, int offset, CancellationToken cancellationToken = default)
     {
         const string sql = @"
             SELECT 
@@ -72,7 +72,9 @@ public class BookRepository : IBookRepository
             JOIN genres AS genre ON book.genre_id = genre.id
             JOIN author_book AS abook ON abook.book_id = book.id
             JOIN authors AS author ON author.id = abook.author_id
-            JOIN book_formats AS bformat ON bformat.id = book.format_id";
+            JOIN book_formats AS bformat ON bformat.id = book.format_id
+            OFFSET @Offset
+            LIMIT @Limit";
         
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
         
@@ -89,7 +91,7 @@ public class BookRepository : IBookRepository
                     new Publisher(publisher.Id.Value, publisher.Name),
                     new BookFormat(format.Id.Value, format.Name)
                 );
-            }, splitOn:"title,isbn,id,id,id,id");
+            }, splitOn:"title,isbn,id,id,id,id", param: new {Offset = offset, Limit = limit});
         
         books = books.GroupBy(p => p.Details.ISBN).Select(g =>
         {
@@ -367,5 +369,25 @@ public class BookRepository : IBookRepository
 
         _changeTracker.Track(book);
         return book;
+    }
+
+    public async Task UpdateQuantityAsync(string ISBN, int quantity, CancellationToken cancellationToken = default)
+    {
+        const string sqlUpdateBooks = @"
+            UPDATE books
+            SET 
+                quantity = quantity + @Quantity
+            WHERE
+                isbn = @ISBN";
+        
+        var parameters = new
+        {
+            ISBN = ISBN,
+            Quantity = quantity,
+        };
+        
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+        
+        await connection.ExecuteAsync(sqlUpdateBooks, param: parameters);
     }
 }
