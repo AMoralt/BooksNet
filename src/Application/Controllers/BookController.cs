@@ -90,18 +90,18 @@ public class BookController
     } 
     
     /// <summary>
-    /// Gets Books by title
+    /// Get Books by filters
     /// </summary>
-    /// <param name="title"></param>
-    [HttpGet("title/{title}")]
+    /// <param name="filter"></param>
+    [HttpGet("title/{filter}")]
     [ProducesResponseType(200)]
     [Produces("application/json")]
-    public async Task<IResult> GetByTitle(string title, CancellationToken token)
+    public async Task<IResult> GetByFilters(string filter, CancellationToken token)
     {
         try
         {
-            var getByTitle = new GetByTitleBooksQuery(title);
-            var result = await _mediator.Send(getByTitle, token);
+            var bookToFind = new GetByFiltersBooksQuery(filter);
+            var result = await _mediator.Send(bookToFind, token);
             return Results.Ok(result);
         }
         catch (NotFoundException e)
@@ -113,7 +113,6 @@ public class BookController
             return Results.BadRequest(e.Message);
         }
     } 
-    
     /// <summary>
     /// Gets Books by Author's Id
     /// </summary>
@@ -216,7 +215,7 @@ public class BookController
     ///         "quantity": 20
     ///    }
     /// </remarks>
-    [HttpPut]
+    [HttpPut("book")]
     [ProducesResponseType(202)]
     [Produces("application/json")]
     public async Task<IResult> Update([FromBody] UpdateBookCommand bookToUpdate, CancellationToken token)

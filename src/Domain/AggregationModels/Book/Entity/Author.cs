@@ -1,4 +1,5 @@
-﻿using Domain.Root;
+﻿using Domain.DomainEvents;
+using Domain.Root;
 
 namespace Domain.AggregationModels.Book;
 

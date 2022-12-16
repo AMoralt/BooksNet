@@ -32,6 +32,7 @@ public class Book : Entity
     public void IncreaseQuantity(int valueToIncrease)
     {
         Details.Quantity += valueToIncrease;
+        this.AddDomainEvent(new IncreaseQuantityDomainEvent(Details.ISBN, valueToIncrease, Details.Price));
     }
     
     public void DecreaseQuantity(int valueToGiveOut)
@@ -40,8 +41,10 @@ public class Book : Entity
             throw new InvalidOperationException("Quantity cannot be less than 0");
         
         Details.Quantity -= valueToGiveOut;
+        
+        this.AddDomainEvent(new DecreaseQuantityDomainEvent(Details.ISBN, valueToGiveOut, Details.Price));
 
         if (Details.Quantity < Details.MinimalQuantity)
-            this.AddDomainEvent(new MinNumberOfBooksDomainEvent(Details.ISBN));
+            this.AddDomainEvent(new MinNumberOfBooksDomainEvent(Details.ISBN, 10, Details.Price));//TODO: 10 is a magic number
     }
 }

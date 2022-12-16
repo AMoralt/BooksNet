@@ -13,7 +13,7 @@ public class BooksTest
         //test controller GetAll with mock
         var mockMediator = new Mock<IMediator>();
         var controller = new BookController(mockMediator.Object);
-        var result = controller.GetAll(cancellationToken);
+        var result = controller.GetAll(1,1,cancellationToken);
         Assert.NotNull(result);
     }
 

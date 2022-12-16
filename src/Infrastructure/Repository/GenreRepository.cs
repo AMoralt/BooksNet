@@ -25,7 +25,7 @@ public class GenreRepository : IRepository<Genre>
         
         var parameters = new
         {
-            Name = itemToCreate.Name
+            Name = itemToCreate.Name.ToLower()
         };
         
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
@@ -60,7 +60,7 @@ public class GenreRepository : IRepository<Genre>
         var parameters = new
         {
             Id = itemToUpdate.Id,
-            Name = itemToUpdate.Name
+            Name = itemToUpdate.Name.ToLower()
         };
         
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);

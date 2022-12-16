@@ -1,12 +1,18 @@
-﻿using MediatR;
+﻿using Domain.Root;
+using MediatR;
 
 namespace Domain.DomainEvents;
 
-public class MinNumberOfBooksDomainEvent : INotification
+public class MinNumberOfBooksDomainEvent : INotification, IEvent
 {
+    public string Name => GetType().Name;
     public string ISBN { get; }
-    public MinNumberOfBooksDomainEvent(string isbn)
+    public int Quantity { get; }
+    public int Price { get; }
+    public MinNumberOfBooksDomainEvent(string isbn, int quantity, int price)
     {
         ISBN = isbn;
+        Price = price;
+        Quantity = quantity;
     }
 }

@@ -26,8 +26,8 @@ public class AuthorRepository : IRepository<Author>
         
         var parameters = new
         {
-            First = itemToCreate.FirstName,
-            Last = itemToCreate.LastName
+            First = itemToCreate.FirstName.ToLower(),
+            Last = itemToCreate.LastName.ToLower()
         };
         
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
@@ -64,8 +64,8 @@ public class AuthorRepository : IRepository<Author>
         var parameters = new
         {
             Id = itemToUpdate.Id,
-            Last = itemToUpdate.LastName,
-            First = itemToUpdate.FirstName
+            Last = itemToUpdate.LastName.ToLower(),
+            First = itemToUpdate.FirstName.ToLower()
         };
         
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);

@@ -34,7 +34,7 @@ public class BookRepository : IBookRepository
         
         var parameters = new
         {
-            Title = itemToCreate.Title.Value,
+            Title = itemToCreate.Title.Value.ToLower(),
             Isbn = itemToCreate.Details.ISBN,
             Quantity = itemToCreate.Details.Quantity,
             Price = itemToCreate.Details.Price,
@@ -58,7 +58,7 @@ public class BookRepository : IBookRepository
     }
     public async Task<IEnumerable<Book>> GetAllAsync(int limit, int offset, CancellationToken cancellationToken = default)
     {
-        const string sql = @"
+        string sql = @"
             SELECT 
                 book.id,
                 book.title, 
@@ -73,8 +73,10 @@ public class BookRepository : IBookRepository
             JOIN author_book AS abook ON abook.book_id = book.id
             JOIN authors AS author ON author.id = abook.author_id
             JOIN book_formats AS bformat ON bformat.id = book.format_id
-            OFFSET @Offset
-            LIMIT @Limit";
+            OFFSET @Offset";
+
+        if (limit != 0) //if limit is entered by user
+            sql += "\rLIMIT @Limit";
         
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
         
@@ -204,9 +206,12 @@ public class BookRepository : IBookRepository
         return books;
     }
 
-    public async Task<IEnumerable<Book>> GetByTitleBooksAsync(string title, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Book>> GetByFiltersBooksAsync(string filter, CancellationToken cancellationToken = default)
     {
-        const string sql = @"
+        //carefull, shity code =(
+        //you was worried
+        
+        string sql1 = @"
             SELECT 
                 book.id,
                 book.title, 
@@ -216,22 +221,65 @@ public class BookRepository : IBookRepository
                 author.id, author.firstname,author.lastname,
                 bformat.id, bformat.name
             FROM (SELECT
-                      id, title, isbn, quantity, price, publicationdate,
-                      publisher_id, genre_id, format_id
+                    id, title, isbn, quantity, price, publicationdate,
+                    publisher_id, genre_id, format_id
                   FROM books
-                  WHERE title % @Title OR ts @@ to_tsquery('russian', @Title)) 
+                  WHERE title % @Filter OR ts @@ to_tsquery('russian', @Filter)) 
                 AS book
             JOIN publishers AS publisher ON book.publisher_id = publisher.id
             JOIN genres AS genre ON book.genre_id = genre.id
             JOIN author_book AS abook ON abook.book_id = book.id
             JOIN authors AS author ON author.id = abook.author_id
             JOIN book_formats AS bformat ON bformat.id = book.format_id
-            ";//TODO check this query, on the first start don't work at all, on others works fine.
+            ";
         
-        var parameters = new { Title = title};
+        string sql2 = @"
+            SELECT 
+                book.id,
+                book.title, 
+                book.isbn, book.quantity, book.price, book.publicationdate,
+                publisher.id, publisher.name,
+                genre.id, genre.name,
+                author.id, author.firstname,author.lastname,
+                bformat.id, bformat.name
+            FROM (SELECT
+                    id, name
+                FROM publishers
+                WHERE name LIKE CONCAT('%',@Filter,'%')) 
+                AS publisher
+            JOIN books AS book ON book.publisher_id = publisher.id
+            JOIN genres AS genre ON book.genre_id = genre.id
+            JOIN author_book AS abook ON abook.book_id = book.id
+            JOIN authors AS author ON author.id = abook.author_id
+            JOIN book_formats AS bformat ON bformat.id = book.format_id
+            ";
+        
+        string sql3 = @"
+            SELECT 
+                book.id,
+                book.title, 
+                book.isbn, book.quantity, book.price, book.publicationdate,
+                publisher.id, publisher.name,
+                genre.id, genre.name,
+                author.id, author.firstname,author.lastname,
+                bformat.id, bformat.name
+            FROM (SELECT
+                    id, firstname, lastname
+                FROM authors
+                WHERE firstname LIKE CONCAT('%',@Filter,'%') OR
+                        lastname LIKE CONCAT('%',@Filter,'%')) 
+                AS author
+            JOIN author_book AS abook ON abook.author_id = author.id
+            JOIN books AS book ON abook.book_id = book.id
+            JOIN publishers AS publisher ON book.publisher_id = publisher.id
+            JOIN genres AS genre ON book.genre_id = genre.id
+            JOIN book_formats AS bformat ON bformat.id = book.format_id
+            ";
+        
+        var parameters = new { Filter = filter.ToLower()};
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
 
-        var books = await connection.QueryAsync<Book, Title, BookDetails, Publisher, Genre, Author,BookFormat, Book>(sql,
+        var books1 = await connection.QueryAsync<Book, Title, BookDetails, Publisher, Genre, Author,BookFormat, Book>(sql1,
             (book, title, bookdetails, publisher, genre, author, format) =>
             {
                 return new Book(
@@ -246,13 +294,56 @@ public class BookRepository : IBookRepository
                 );
             }, splitOn:"title,isbn,id,id,id,id", param: parameters);
         
-        books = books.GroupBy(p => p.Details.ISBN).Select(g =>
+        var books2 = await connection.QueryAsync<Book, Title, BookDetails, Publisher, Genre, Author,BookFormat, Book>(sql2,
+            (book, title, bookdetails, publisher, genre, author, format) =>
+            {
+                return new Book(
+                    book.Id,
+                    new BookDetails(bookdetails.Quantity, bookdetails.Price, bookdetails.PublicationDate,
+                        bookdetails.ISBN),
+                    new Title(title.Value),
+                    new Genre(genre.Id.Value, genre.Name),
+                    new List<Author>{ new Author(author.Id.Value, author.FirstName, author.LastName)},
+                    new Publisher(publisher.Id.Value, publisher.Name),
+                    new BookFormat(format.Id.Value, format.Name)
+                );
+            }, splitOn:"title,isbn,id,id,id,id", param: parameters);
+        
+        var books3 = await connection.QueryAsync<Book, Title, BookDetails, Publisher, Genre, Author,BookFormat, Book>(sql3,
+            (book, title, bookdetails, publisher, genre, author, format) =>
+            {
+                return new Book(
+                    book.Id,
+                    new BookDetails(bookdetails.Quantity, bookdetails.Price, bookdetails.PublicationDate,
+                        bookdetails.ISBN),
+                    new Title(title.Value),
+                    new Genre(genre.Id.Value, genre.Name),
+                    new List<Author>{ new Author(author.Id.Value, author.FirstName, author.LastName)},
+                    new Publisher(publisher.Id.Value, publisher.Name),
+                    new BookFormat(format.Id.Value, format.Name)
+                );
+            }, splitOn:"title,isbn,id,id,id,id", param: parameters);
+        
+        books1 = books1.GroupBy(p => p.Details.ISBN).Select(g =>
+        {
+            var groupedBooks = g.First();
+            groupedBooks.Authors = g.Select(p => p.Authors.Single()).ToList();
+            return groupedBooks;
+        }).ToList();
+        books2 = books2.GroupBy(p => p.Details.ISBN).Select(g =>
+        {
+            var groupedBooks = g.First();
+            groupedBooks.Authors = g.Select(p => p.Authors.Single()).ToList();
+            return groupedBooks;
+        }).ToList();
+        books3 = books3.GroupBy(p => p.Details.ISBN).Select(g =>
         {
             var groupedBooks = g.First();
             groupedBooks.Authors = g.Select(p => p.Authors.Single()).ToList();
             return groupedBooks;
         }).ToList();
         
+        var books = books1.Concat(books2).Concat(books3);
         return books;
     }
 
@@ -284,7 +375,7 @@ public class BookRepository : IBookRepository
         var parameters = new
         {
             BookId = itemToUpdate.Id,
-            Title = itemToUpdate.Title.Value,
+            Title = itemToUpdate.Title.Value.ToLower(),
             Quantity = itemToUpdate.Details.Quantity,
             Price = itemToUpdate.Details.Price,
             PublicationDate = itemToUpdate.Details.PublicationDate,

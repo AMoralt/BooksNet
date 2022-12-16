@@ -4,21 +4,21 @@ using Infrastructure.Contracts;
 
 namespace Application.Query;
 
-public class GetByTitleBooksQueryHandler : IRequestHandler<GetByTitleBooksQuery, IEnumerable<GetBookResponse>>
+public class GetByFiltersBooksQueryHandler : IRequestHandler<GetByFiltersBooksQuery, IEnumerable<GetBookResponse>>
 {
     private readonly IBookRepository _bookRepository;
 
-    public GetByTitleBooksQueryHandler(IBookRepository bookRepository)
+    public GetByFiltersBooksQueryHandler(IBookRepository bookRepository)
     {
         _bookRepository = bookRepository;
     }
 
-    public async Task<IEnumerable<GetBookResponse>> Handle(GetByTitleBooksQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<GetBookResponse>> Handle(GetByFiltersBooksQuery request, CancellationToken cancellationToken)
     {
-        var books = await _bookRepository.GetByTitleBooksAsync(request.title,cancellationToken);
+        var books = await _bookRepository.GetByFiltersBooksAsync(request.Filter, cancellationToken);
 
         if (!books.Any())
-            throw new NotFoundException($"No books found with title: {request.title}");
+            throw new NotFoundException($"No books found with that filters");
         
         var result = books.Select(x =>
             new GetBookResponse(
@@ -35,4 +35,4 @@ public class GetByTitleBooksQueryHandler : IRequestHandler<GetByTitleBooksQuery,
     }
 }
 
-public record GetByTitleBooksQuery(string title) :  IRequest<IEnumerable<GetBookResponse>>;
+public record GetByFiltersBooksQuery(string Filter) :  IRequest<IEnumerable<GetBookResponse>>;

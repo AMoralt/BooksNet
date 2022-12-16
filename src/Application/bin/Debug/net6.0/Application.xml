@@ -53,7 +53,7 @@
                 }
             </remarks>
         </member>
-        <member name="M:Application.Controllers.BookController.GetAll(System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.BookController.GetAll(System.Int32,System.Int32,System.Threading.CancellationToken)">
             <summary>
             Gets the list of all Books
             </summary>
@@ -71,11 +71,11 @@
             </summary>
             <param name="id"></param>
         </member>
-        <member name="M:Application.Controllers.BookController.GetByTitle(System.String,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.BookController.GetByFilters(System.String,System.Threading.CancellationToken)">
             <summary>
-            Gets Books by title
+            Get Books by filters
             </summary>
-            <param name="title"></param>
+            <param name="filter"></param>
         </member>
         <member name="M:Application.Controllers.BookController.GetByAuthorId(System.Int32,System.Threading.CancellationToken)">
             <summary>
@@ -134,6 +134,13 @@
                     "quantity": 20
                }
             </remarks>
+        </member>
+        <member name="M:Application.Controllers.BookController.DecreaseQuantity(System.String,System.Int32,System.Threading.CancellationToken)">
+            /// <summary>
+            Change Quantity of books
+            </summary>
+            <param name="ISBN"></param>
+            <param name="Quantity"></param>
         </member>
         <member name="M:Application.Controllers.BookFormatController.GetAll(System.Threading.CancellationToken)">
             <summary>
@@ -224,6 +231,23 @@
                     "name": "Genre description"
                }
             </remarks>
+        </member>
+        <member name="M:Application.Controllers.OrderController.Order(Application.Commands.OrderBooksCommand,System.Threading.CancellationToken)">
+            <summary>
+            Order books
+            </summary>
+        </member>
+        <member name="M:Application.Controllers.OrderController.GetByDateTime(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get state of book by datetime
+            </summary>
+            <param name="ISBN"></param>
+        </member>
+        <member name="M:Application.Controllers.OrderController.GetAll(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets the list of all Orders
+            </summary>
+            <returns>The list of Orders</returns>
         </member>
         <member name="M:Application.Controllers.PublisherController.GetAll(System.Threading.CancellationToken)">
             <summary>
