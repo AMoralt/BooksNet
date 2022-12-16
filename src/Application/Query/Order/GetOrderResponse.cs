@@ -9,4 +9,13 @@ public record GetOrderResponse(
     public record OrderItemResponse(
         int Quantity,
         int Price,
-        GetBookResponse books);
+        OrderBookResponse books);
+        
+public record OrderBookResponse(
+    string title,
+    string ISBN,
+    string genre,
+    string publisherName,
+    DateTime publicationDate,
+    List<AuthorResponse> authors,
+    string bookFormat);

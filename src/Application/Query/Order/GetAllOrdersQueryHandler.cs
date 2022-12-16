@@ -25,16 +25,14 @@ public class GetAllOrdersQueryHandler : IRequestHandler<GetAllOrdersQuery, IEnum
                 x.OrderItems.Select(y =>
                 {
                     return
-                        new OrderItemResponse(y.Quantity, y.Price, new GetBookResponse(
+                        new OrderItemResponse(y.Quantity, y.Price, new OrderBookResponse(
                             y.Book.Title.Value,
                             y.Book.Details.ISBN,
                             y.Book.Genre.Name,
                             y.Book.Publisher.Name,
                             y.Book.Details.PublicationDate.Date,
                             y.Book.Authors.Select(a => new AuthorResponse(a.LastName, a.FirstName)).ToList(),
-                            y.Book.Format.Name,
-                            y.Book.Details.Price,
-                            y.Book.Details.Quantity));
+                            y.Book.Format.Name));
                 }).ToList()));
 
         return result;
