@@ -1,5 +1,4 @@
 ﻿using Application.Exception;
-using Domain.AggregationModels.Order;
 using Infrastructure.Contracts;
 using MediatR;
 

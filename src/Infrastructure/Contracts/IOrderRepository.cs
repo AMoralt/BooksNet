@@ -1,6 +1,4 @@
 ﻿using Domain.AggregationModels.Order;
-using Domain.Root;
-using MediatR;
 
 namespace Infrastructure.Contracts;
 

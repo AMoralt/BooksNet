@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-using Infrastructure.Contracts;
-using Domain.AggregationModels.Book;
+﻿using Infrastructure.Contracts;
 using MediatR;
 
 namespace Application.Commands;

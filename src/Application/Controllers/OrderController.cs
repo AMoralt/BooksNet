@@ -35,13 +35,13 @@ public class OrderController
     }
     
     /// <summary>
-    /// Get state of book by datetime
+    /// Get forecast for orders
     /// </summary>
     /// <param name="ISBN"></param>
     [HttpGet("{ISBN}/{date}")]
     [ProducesResponseType(200)]
     [Produces("application/json")]
-    public async Task<IResult> GetByDateTime(string ISBN, string date, CancellationToken token)
+    public async Task<IResult> GetForecast(string ISBN, string date, CancellationToken token)
     {
         try
         {

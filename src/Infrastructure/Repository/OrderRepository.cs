@@ -1,9 +1,7 @@
 ﻿using Dapper;
 using Domain.AggregationModels.Book;
 using Domain.AggregationModels.Order;
-using Domain.Root;
 using Infrastructure.Contracts;
-using MediatR;
 using Npgsql;
 
 namespace Infrastructure.Repository;

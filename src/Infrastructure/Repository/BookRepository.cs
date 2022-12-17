@@ -89,7 +89,7 @@ public class BookRepository : IBookRepository
                         bookdetails.ISBN),
                     new Title(title.Value),
                     new Genre(genre.Id.Value, genre.Name),
-                    new List<Author>{ new Author(author.Id.Value, author.FirstName, author.LastName)},
+                    new List<Author>{ new Author(author.Id.Value, author.LastName, author.FirstName)},
                     new Publisher(publisher.Id.Value, publisher.Name),
                     new BookFormat(format.Id.Value, format.Name)
                 );

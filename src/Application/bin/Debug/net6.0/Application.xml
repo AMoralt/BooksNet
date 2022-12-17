@@ -237,9 +237,9 @@
             Order books
             </summary>
         </member>
-        <member name="M:Application.Controllers.OrderController.GetByDateTime(System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Application.Controllers.OrderController.GetForecast(System.String,System.String,System.Threading.CancellationToken)">
             <summary>
-            Get state of book by datetime
+            Get forecast for orders
             </summary>
             <param name="ISBN"></param>
         </member>

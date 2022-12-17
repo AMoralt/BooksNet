@@ -1,10 +1,10 @@
-﻿using Application.Exception;
-using MediatR;
+﻿using MediatR;
 using Infrastructure.Contracts;
+using Infrastructure.Repository;
 
 namespace Application.Commands;
 
-public class GetBookStateByDateTimeCommandHandler : IRequestHandler<GetBookStateByDateTimeCommand>
+public class GetBookStateByDateTimeCommandHandler : IRequestHandler<GetBookStateByDateTimeCommand,ForecastOut> 
 {
     private readonly IEventRepository _eventRepository;
     public GetBookStateByDateTimeCommandHandler(IEventRepository eventRepository)
@@ -12,16 +12,16 @@ public class GetBookStateByDateTimeCommandHandler : IRequestHandler<GetBookState
         _eventRepository = eventRepository;
     }
 
-    public async Task<Unit> Handle(GetBookStateByDateTimeCommand request, CancellationToken cancellationToken)
+    public async Task<ForecastOut> Handle(GetBookStateByDateTimeCommand request, CancellationToken cancellationToken)
     {
         var datetime = DateTime.Parse(request.date);
-        await _eventRepository.GetData(request.ISBN, datetime);
+        var result = await _eventRepository.GetData(request.ISBN, datetime);
         
         //if (!events.Any())
-            throw new NotFoundException($"There is no data in repository");
-        
-        return Unit.Value;
+            //throw new NotFoundException($"There is no data in repository");
+            
+        return result;
     }
 }
 
-public record GetBookStateByDateTimeCommand(string ISBN, string date) : IRequest;
+public record GetBookStateByDateTimeCommand(string ISBN, string date) : IRequest<ForecastOut>;

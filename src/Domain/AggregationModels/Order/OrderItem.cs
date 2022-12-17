@@ -1,5 +1,4 @@
-﻿using Domain.AggregationModels.Book;
-using Domain.Root;
+﻿using Domain.Root;
 
 namespace Domain.AggregationModels.Order;
 
