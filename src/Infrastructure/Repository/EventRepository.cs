@@ -45,29 +45,50 @@ public class EventRepository : IEventRepository
     public async Task<ForecastOut> GetData(string ISBN, DateTime time, CancellationToken cancellationToken = default)
     {
         string sql = $@"
-                SELECT quantity AS Quantity, created_at AS Created_at
+                SELECT e.created_at AS Created_at, SUM(e.quantity) AS Quantity
+                FROM (
+                        SELECT date_trunc('month', created_at) AS created_at, quantity AS quantity
+                        FROM events
+                        WHERE isbn = '{ISBN}' AND created_at >= '{time}') 
+                    AS e
+                GROUP BY created_at";
+
+        string sql2 = @"SELECT MAX(date_trunc('month', created_at)) AS max
                 FROM events
-                WHERE isbn = '{ISBN}' AND created_at >= '{time}'";
-        
-        string sql2 = @"SELECT MAX(created_at) AS max
-                FROM events
-                WHERE isbn = @ISBN1 AND created_at >= @time1";
-        //isbn AS ISBN, name AS Name, , price AS Price, created_at AS Created_at
+                WHERE isbn = @ISBN AND created_at >= @time";
         var mlContext = new MLContext();
-        
+
         DatabaseLoader loader = mlContext.Data.CreateDatabaseLoader<EventData>();
-        
+
         var dbSource = new DatabaseSource(NpgsqlFactory.Instance, _connectionString, sql);
 
         IDataView data = loader.Load(dbSource);
 
+        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+        var temp = await connection.QueryAsync<dynamic>(sql2, param: new { ISBN = ISBN, time = time });
+        DateTime lastdate = temp.FirstOrDefault().max;
+
+        var num = 4 + ((DateTime.Now.Year - lastdate.Year) * 12 + DateTime.Now.Month - lastdate.Month);
+        
+        var fore = new ForecastOut();
+        fore.Date = new List<DateTime>();
+        if (num > 6)
+        {
+            num = 4;
+        }
+        
+        for (int i = 1; i < num+1; i++)
+        {
+            fore.Date.Add(lastdate.AddMonths(i));
+        }
+        
         var pipeline = mlContext.Forecasting.ForecastBySsa(
             "Forecast",
             nameof(EventData.Quantity),
             windowSize: 5,
             seriesLength:10,
             trainSize:100,
-            horizon:4
+            horizon: num
         );
         
         var model = pipeline.Fit(data);
@@ -75,13 +96,7 @@ public class EventRepository : IEventRepository
         var forecastEngine = model.CreateTimeSeriesEngine<EventData, Forecast>(mlContext);
         
         var forecast = forecastEngine.Predict();
-        
-        var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
-        
-        var temp = await connection.QueryAsync<dynamic>(sql2, param: new { ISBN1 = ISBN, time1 = time });
-        DateTime lastdate = temp.FirstOrDefault().max;
-        var fore = new ForecastOut();
-        fore.Date = lastdate;
+
         fore.ForecastedValues = forecast.ForecastedValues;
         
         return fore;
@@ -90,12 +105,9 @@ public class EventRepository : IEventRepository
 
 public class EventData
 {
-    public string ISBN { get; set; }
-    public string Name { get; set; }
-    [LoadColumn(0)]
-    public Single Quantity { get; set; }
-    public int Price { get; set; }
     [LoadColumn(1)]
+    public Single Quantity { get; set; }
+    [LoadColumn(2)]
     public DateTime Created_at { get; set; }
 }
 
@@ -107,7 +119,7 @@ public class Forecast
 
 public class ForecastOut
 {
-    public DateTime Date { get; set; }
+    public List<DateTime> Date { get; set; }
     [ColumnName("Forecast")]
     public float[] ForecastedValues { get; set; }
 }

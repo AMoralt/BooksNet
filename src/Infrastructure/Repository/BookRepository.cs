@@ -224,7 +224,7 @@ public class BookRepository : IBookRepository
                     id, title, isbn, quantity, price, publicationdate,
                     publisher_id, genre_id, format_id
                   FROM books
-                  WHERE title % @Filter OR ts @@ to_tsquery('russian', @Filter)) 
+                  WHERE title LIKE CONCAT('%',@Filter,'%') OR ts @@ to_tsquery('russian', @Filter)) 
                 AS book
             JOIN publishers AS publisher ON book.publisher_id = publisher.id
             JOIN genres AS genre ON book.genre_id = genre.id
@@ -344,7 +344,7 @@ public class BookRepository : IBookRepository
         }).ToList();
         
         var books = books1.Concat(books2).Concat(books3);
-        return books;
+        return books.Distinct();
     }
 
     public async Task UpdateAsync(Book itemToUpdate, CancellationToken cancellationToken = default)
