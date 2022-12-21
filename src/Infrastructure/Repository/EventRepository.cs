@@ -82,7 +82,7 @@ public class EventRepository : IEventRepository
         
         var forecast = forecastEngine.Predict();
 
-        var list = lastdate.ToList();
+        var list = lastdate.OrderBy(x=>x.Date).ToList();
         
         for (int i = 1; i < 5; i++)
         {
