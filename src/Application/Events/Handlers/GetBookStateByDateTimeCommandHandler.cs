@@ -4,7 +4,7 @@ using Infrastructure.Repository;
 
 namespace Application.Commands;
 
-public class GetBookStateByDateTimeCommandHandler : IRequestHandler<GetBookStateByDateTimeCommand,ForecastOut> 
+public class GetBookStateByDateTimeCommandHandler : IRequestHandler<GetBookStateByDateTimeCommand,List<ForecastOut>> 
 {
     private readonly IEventRepository _eventRepository;
     public GetBookStateByDateTimeCommandHandler(IEventRepository eventRepository)
@@ -12,7 +12,7 @@ public class GetBookStateByDateTimeCommandHandler : IRequestHandler<GetBookState
         _eventRepository = eventRepository;
     }
 
-    public async Task<ForecastOut> Handle(GetBookStateByDateTimeCommand request, CancellationToken cancellationToken)
+    public async Task<List<ForecastOut>> Handle(GetBookStateByDateTimeCommand request, CancellationToken cancellationToken)
     {
         var datetime = DateTime.Parse(request.date);
         var result = await _eventRepository.GetData(request.ISBN, datetime);
@@ -24,4 +24,4 @@ public class GetBookStateByDateTimeCommandHandler : IRequestHandler<GetBookState
     }
 }
 
-public record GetBookStateByDateTimeCommand(string ISBN, string date) : IRequest<ForecastOut>;
+public record GetBookStateByDateTimeCommand(string ISBN, string date) : IRequest<List<ForecastOut>>;

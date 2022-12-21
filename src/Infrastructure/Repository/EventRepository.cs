@@ -42,7 +42,7 @@ public class EventRepository : IEventRepository
         await connection.ExecuteAsync(sql, param: parameters);
     }
 
-    public async Task<ForecastOut> GetData(string ISBN, DateTime time, CancellationToken cancellationToken = default)
+    public async Task<List<ForecastOut>> GetData(string ISBN, DateTime time, CancellationToken cancellationToken = default)
     {
         string sql = $@"
                 SELECT e.created_at AS Created_at, SUM(e.quantity) AS Quantity
@@ -53,7 +53,7 @@ public class EventRepository : IEventRepository
                     AS e
                 GROUP BY created_at";
 
-        string sql2 = @"SELECT MAX(date_trunc('month', created_at)) AS max
+        string sql2 = @"SELECT date_trunc('month', created_at) AS Date, quantity AS ForecastedValues
                 FROM events
                 WHERE isbn = @ISBN AND created_at >= @time";
         var mlContext = new MLContext();
@@ -65,30 +65,15 @@ public class EventRepository : IEventRepository
         IDataView data = loader.Load(dbSource);
 
         var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
-        var temp = await connection.QueryAsync<dynamic>(sql2, param: new { ISBN = ISBN, time = time });
-        DateTime lastdate = temp.FirstOrDefault().max;
+        var lastdate = await connection.QueryAsync<ForecastOut>(sql2, param: new { ISBN = ISBN, time = time });
 
-        var num = 4 + ((DateTime.Now.Year - lastdate.Year) * 12 + DateTime.Now.Month - lastdate.Month);
-        
-        var fore = new ForecastOut();
-        fore.Date = new List<DateTime>();
-        if (num > 6)
-        {
-            num = 4;
-        }
-        
-        for (int i = 1; i < num+1; i++)
-        {
-            fore.Date.Add(lastdate.AddMonths(i));
-        }
-        
         var pipeline = mlContext.Forecasting.ForecastBySsa(
             "Forecast",
             nameof(EventData.Quantity),
             windowSize: 5,
             seriesLength:10,
             trainSize:100,
-            horizon: num
+            horizon: 4
         );
         
         var model = pipeline.Fit(data);
@@ -97,9 +82,15 @@ public class EventRepository : IEventRepository
         
         var forecast = forecastEngine.Predict();
 
-        fore.ForecastedValues = forecast.ForecastedValues;
+        var list = lastdate.ToList();
         
-        return fore;
+        for (int i = 1; i < 5; i++)
+        {
+            var obj = new ForecastOut(lastdate.Max(x => x.Date).AddMonths(i), forecast.ForecastedValues[i - 1]);
+            list.Add(obj);
+        }
+        
+        return list;
     }
 }
 
@@ -119,7 +110,13 @@ public class Forecast
 
 public class ForecastOut
 {
-    public List<DateTime> Date { get; set; }
+    private ForecastOut() { }
+    public ForecastOut(DateTime date, float forecastedValues)
+    {
+        Date = date;
+        ForecastedValues = forecastedValues;
+    }
+    public DateTime Date { get; set; }
     [ColumnName("Forecast")]
-    public float[] ForecastedValues { get; set; }
+    public float ForecastedValues { get; set; }
 }
