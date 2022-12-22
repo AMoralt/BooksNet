@@ -90,7 +90,7 @@ public class EventRepository : IEventRepository
         
         for (int i = 1; i < 5; i++)
         {
-            var obj = new ForecastOut(lastdate.Max(x => x.Date).AddMonths(i), forecast.ForecastedValues[i - 1]);
+            var obj = new ForecastOut(lastdate.Max(x => x.Date).AddMonths(i), (int)forecast.ForecastedValues[i - 1]);
             list.Add(obj);
         }
         
@@ -115,12 +115,12 @@ public class Forecast
 public class ForecastOut
 {
     private ForecastOut() { }
-    public ForecastOut(DateTime date, float forecastedValues)
+    public ForecastOut(DateTime date, int forecastedValues)
     {
         Date = date;
         ForecastedValues = forecastedValues;
     }
     public DateTime Date { get; set; }
     [ColumnName("Forecast")]
-    public float ForecastedValues { get; set; }
+    public int ForecastedValues { get; set; }
 }
