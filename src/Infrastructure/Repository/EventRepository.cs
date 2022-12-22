@@ -53,9 +53,13 @@ public class EventRepository : IEventRepository
                     AS e
                 GROUP BY created_at";
 
-        string sql2 = @"SELECT date_trunc('month', created_at) AS Date, quantity AS ForecastedValues
-                FROM events
-                WHERE isbn = @ISBN AND created_at >= @time";
+        string sql2 = @"SELECT e.created_at AS Date, SUM(e.quantity) AS ForecastedValues
+                FROM (
+                        SELECT date_trunc('month', created_at) AS created_at, quantity AS quantity
+                        FROM events
+                        WHERE isbn = @ISBN AND created_at >= @time) 
+                    AS e
+                GROUP BY created_at";
         var mlContext = new MLContext();
 
         DatabaseLoader loader = mlContext.Data.CreateDatabaseLoader<EventData>();
